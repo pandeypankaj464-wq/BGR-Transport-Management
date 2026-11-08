@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BOMBAY GUJARAT ROADLINES</title>
+<style>
+:root{--navy:#101d38;--blue:#193b70;--gold:#e5b84b;--bg:#f3f5f9;--white:#fff;--green:#168653;--red:#c43d42}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17243a}
+header{background:linear-gradient(120deg,#101d38,#244d83);color:white;padding:22px 18px;border-bottom:4px solid var(--gold)}
+header h2{margin:0;font-size:21px;letter-spacing:1px}
+header p{margin:7px 0 0;color:#e9c76e;font-size:12px;letter-spacing:2px}
+nav{display:flex;gap:7px;overflow-x:auto;background:#fff;padding:10px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}
+nav button{border:0;background:#edf1f7;padding:11px 14px;border-radius:8px;white-space:nowrap;font-weight:bold;color:#233b60}
+nav button.active{background:var(--navy);color:white}
+main{max-width:1100px;margin:auto;padding:16px}
+.page{display:none}.page.active{display:block}
+h3{color:var(--navy);margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+.card,.panel{background:white;border-radius:12px;padding:16px;box-shadow:0 2px 10px #1425440c;margin-bottom:14px}
+.card small{color:#68778e}.card strong{display:block;font-size:23px;margin-top:9px;color:var(--navy)}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 5px;color:#34435a}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d6dce6;border-radius:8px;background:white;font-size:15px}
+textarea{min-height:65px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.btn{border:0;border-radius:8px;padding:11px 15px;background:var(--blue);color:white;font-weight:bold;margin:8px 5px 4px 0;cursor:pointer}
+.gold{background:#b8871d}.green{background:var(--green)}.red{background:var(--red)}.light{background:#e9eef6;color:#1b3458}
+table{width:100%;border-collapse:collapse;min-width:650px;font-size:13px}
+th,td{padding:11px 9px;border-bottom:1px solid #e8ebf1;text-align:left}
+th{background:#eef2f8;color:#243b60}
+.tablewrap{overflow-x:auto}
+.muted{color:#6c7890;font-size:13px}
+.pill{padding:4px 8px;border-radius:20px;background:#e7f5ed;color:#167343;font-size:11px}
+.search{margin-bottom:12px}
+.empty{padding:20px;text-align:center;color:#8993a4}
+footer{text-align:center;padding:20px;color:#7c8798;font-size:12px}
+@media(max-width:600px){header h2{font-size:18px}main{padding:10px}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header>
+<h2>BOMBAY GUJARAT ROADLINES</h2>
+<p>TRANSPORT & LOGISTICS MANAGEMENT</p>
+</header>
+
+<nav>
+<button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+<button onclick="showPage('booking',this)">New Booking</button>
+<button onclick="showPage('records',this)">Bookings</button>
+<button onclick="showPage('bilty',this)">LR / Bilty</button>
+<button onclick="showPage('payments',this)">Payments</button>
+<button onclick="showPage('expenses',this)">Expenses</button>
+<button onclick="showPage('ledgers',this)">Ledgers</button>
+<button onclick="showPage('backup',this)">Backup</button>
+</nav>
+
+<main>
+<section id="dashboard" class="page active">
+<h3>Business Dashboard</h3>
+<div class="cards">
+<div class="card"><small>Total Bookings</small><strong id="dBookings">0</strong></div>
+<div class="card"><small>Total Freight</small><strong id="dFreight">₹0</strong></div>
+<div class="card"><small>Brokerage</small><strong id="dBrokerage">₹0</strong></div>
+<div class="card"><small>Customer Pending</small><strong id="dPending">₹0</strong></div>
+<div class="card"><small>Owner Pending</small><strong id="dOwner">₹0</strong></div>
+<div class="card"><small>Total Expenses</small><strong id="dExpenses">₹0</strong></div>
+</div>
+<div class="panel">
+<h3>Recent Bookings</h3>
+<div id="recent"></div>
+</div>
+<div class="panel">
+<h3>Business Information</h3>
+<p><b>BOMBAY GUJARAT ROADLINES</b></p>
+<p class="muted">Transport & Logistics Management</p>
+<p class="muted">Your transport business records in one place.</p>
+</div>
+</section>
+
+<section id="booking" class="page">
+<h3>New Transport Booking</h3>
+<div class="panel">
+<form id="bookingForm">
+<input type="hidden" id="editId">
+<div class="grid">
+<div><label>Booking Date</label><input type="date" id="date" required></div>
+<div><label>LR / Bilty Number</label><input id="lr" placeholder="Example: BGRL-001" required></div>
+<div><label>Customer Name</label><input id="customer" required></div>
+<div><label>Customer GSTIN</label><input id="gstin"></div>
+<div><label>Consignee Name</label><input id="consignee"></div>
+<div><label>Truck Number</label><input id="truck" placeholder="GJ-XX-XX-XXXX" required></div>
+<div><label>Driver Name</label><input id="driver"></div>
+<div><label>Driver Mobile</label><input id="mobile" type="tel"></div>
+<div><label>Truck Owner</label><input id="owner"></div>
+<div><label>From</label><input id="from" required></div>
+<div><label>To</label><input id="to" required></div>
+<div><label>Goods Description</label><input id="goods"></div>
+<div><label>Weight</label><input id="weight" placeholder="e.g. 10 MT"></div>
+<div><label>Packages</label><input id="packages" type="number" min="0"></div>
+<div><label>Invoice Number</label><input id="invoice"></div>
+<div><label>Customer Freight (₹)</label><input id="freight" type="number" min="0" value="0"></div>
+<div><label>Owner Freight (₹)</label><input id="ownerFreight" type="number" min="0" value="0"></div>
+<div><label>Other Charges (₹)</label><input id="charges" type="number" min="0" value="0"></div>
+<div><label>Load Status</label>
+<select id="status"><option>Booked</option><option>In Transit</option><option>Delivered</option><option>Cancelled</option></select></div>
+</div>
+<label>Remarks</label><textarea id="remarks"></textarea>
+<button class="btn gold" type="submit">Save Booking</button>
+<button class="btn light" type="reset" onclick="resetForm()">Clear Form</button>
+</form>
+</div>
+</section>
+
+<section id="records" class="page">
+<h3>All Bookings</h3>
+<input class="search" id="search" placeholder="Search LR, customer, truck, route..." oninput="renderBookings()">
+<div class="panel tablewrap"><table>
+<thead><tr><th>LR No.</th><th>Date</th><th>Customer</th><th>Truck</th><th>Route</th><th>Freight</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="bookingRows"></tbody>
+</table></div>
+</section>
+
+<section id="bilty" class="page">
+<h3>LR / Bilty Generator</h3>
+<div class="panel">
+<label>Select Booking</label>
+<select id="biltySelect" onchange="previewBilty()"><option value="">Choose LR Number</option></select>
+<div id="biltyPreview"></div>
+<button class="btn gold" onclick="printBilty()">Print / Save PDF</button>
+</div>
+</section>
+
+<section id="payments" class="page">
+<h3>Payment Entry</h3>
+<div class="panel">
+<form id="paymentForm">
+<div class="grid">
+<div><label>Booking / LR Number</label><select id="payBooking" required></select></div>
+<div><label>Payment Type</label><select id="payType"><option value="customer">Received from Customer</option><option value="owner">Paid to Truck Owner</option></select></div>
+<div><label>Amount (₹)</label><input id="payAmount" type="number" min="1" required></div>
+<div><label>Payment Date</label><input id="payDate" type="date" required></div>
+<div><label>Payment Mode</label><select id="payMode"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option></select></div>
+<div><label>Reference / UTR</label><input id="payRef"></div>
+</div>
+<button class="btn green">Save Payment</button>
+</form>
+</div>
+<div class="panel tablewrap"><h3>Payment History</h3><table><thead><tr><th>Date</th><th>LR</th><th>Type</th><th>Amount</th><th>Mode</th><th>Action</th></tr></thead><tbody id="paymentRows"></tbody></table></div>
+</section>
+
+<section id="expenses" class="page">
+<h3>Business Expenses</h3>
+<div class="panel">
+<form id="expenseForm">
+<div class="grid">
+<div><label>Date</label><input id="expDate" type="date" required></div>
+<div><label>Expense Category</label><select id="expCategory"><option>Office</option><option>Telephone / Internet</option><option>Travel</option><option>Salary</option><option>Bank Charges</option><option>Other</option></select></div>
+<div><label>Amount (₹)</label><input id="expAmount" type="number" min="1" required></div>
+<div><label>Description</label><input id="expDesc"></div>
+</div>
+<button class="btn gold">Save Expense</button>
+</form>
+</div>
+<div class="panel tablewrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Action</th></tr></thead><tbody id="expenseRows"></tbody></table></div>
+</section>
+
+<section id="ledgers" class="page">
+<h3>Customer & Owner Ledgers</h3>
+<div class="panel tablewrap"><h3>Customer Ledger</h3><table><thead><tr><th>Customer</th><th>Total Freight</th><th>Received</th><th>Pending</th></tr></thead><tbody id="customerLedger"></tbody></table></div>
+<div class="panel tablewrap"><h3>Truck Owner Ledger</h3><table><thead><tr><th>Owner</th><th>Total Freight</th><th>Paid</th><th>Pending</th></tr></thead><tbody id="ownerLedger"></tbody></table></div>
+</section>
+
+<section id="backup" class="page">
+<h3>Backup & Reports</h3>
+<div class="panel">
+<p>Apne records ki backup file download karke safe rakhein.</p>
+<button class="btn gold" onclick="backup()">Download Full Backup (JSON)</button>
+<button class="btn" onclick="exportCSV()">Export Bookings (CSV)</button>
+<label>Restore Backup (JSON)</label>
+<input type="file" id="restoreFile" accept=".json,application/json">
+<button class="btn green" onclick="restoreBackup()">Restore Data</button>
+<p class="muted">Note: Restore karne par current saved data replace ho sakta hai. Pehle backup download kar lena.</p>
+</div>
+<div class="panel">
+<h3>Important Information</h3>
+<p class="muted">This app saves records in this browser on this device. It does not automatically sync to another phone or computer.</p>
+<p class="muted">Regularly download a JSON backup. This basic LR/Bilty format should be checked against your actual business and legal requirements before official use.</p>
+</div>
+</section>
+</main>
+<footer>BOMBAY GUJARAT ROADLINES · TRANSPORT & LOGISTICS MANAGEMENT</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
+const read=(key,def=[])=>{try{return JSON.parse(localStorage.getItem(key))||def}catch(e){return def}};
+let bookings=read('bgrl_bookings'),payments=read('bgrl_payments'),expenses=read('bgrl_expenses');
+function save(){
+ localStorage.setItem('bgrl_bookings',JSON.stringify(bookings));
+ localStorage.setItem('bgrl_payments',JSON.stringify(payments));
+ localStorage.setItem('bgrl_expenses',JSON.stringify(expenses));
+ renderAll();
+}
+function showPage(id,btn){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ $(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ renderAll();
+}
+function val(id){return $(id).value.trim()}
+function resetForm(){
+ $('editId').value='';
+ $('date').value=new Date().toISOString().slice(0,10);
+ $('bookingForm').querySelector('button[type=submit]').textContent='Save Booking';
+}
+$('date').value=new Date().toISOString().slice(0,10);
+$('payDate').value=new Date().toISOString().slice(0,10);
+$('expDate').value=new Date().toISOString().slice(0,10);
+
+$('bookingForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const id=val('editId')||String(Date.now());
+ const old=bookings.find(b=>b.id===id);
+ const b={
+ id,date:val('date'),lr:val('lr'),customer:val('customer'),gstin:val('gstin'),
+ consignee:val('consignee'),truck:val('truck'),driver:val('driver'),mobile:val('mobile'),
+ owner:val('owner'),from:val('from'),to:val('to'),goods:val('goods'),
+ weight:val('weight'),packages:val('packages'),invoice:val('invoice'),
+ freight:Number(val('freight')),ownerFreight:Number(val('ownerFreight')),
+ charges:Number(val('charges')),status:val('status'),remarks:val('remarks')
+ };
+ if(old)bookings=bookings.map(x=>x.id===id?b:x);
+ else bookings.unshift(b);
+ save();resetForm();alert('Booking saved successfully!');
+});
+function received(id,type){
+ return payments.filter(p=>p.bookingId===id&&p.type===type).reduce((s,p)=>s+Number(p.amount),0);
+}
+function renderBookings(){
+ const q=($('search')?.value||'').toLowerCase();
+ $('bookingRows').innerHTML=bookings.filter(b=>[b.lr,b.customer,b.truck,b.from,b.to].join(' ').toLowerCase().includes(q)).map(b=>`
+ <tr><td>${esc(b.lr)}</td><td>${esc(b.date)}</td><td>${esc(b.customer)}</td><td>${esc(b.truck)}</td><td>${esc(b.from)} → ${esc(b.to)}</td><td>${money(b.freight)}</td><td><span class="pill">${esc(b.status)}</span></td>
+ <td><button class="btn light" onclick="editBooking('${b.id}')">Edit</button><button class="btn red" onclick="deleteBooking('${b.id}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="8" class="empty">No bookings found</td></tr>';
+}
+function editBooking(id){
+ const b=bookings.find(x=>x.id===id);if(!b)return;
+ const fields=['date','lr','customer','gstin','consignee','truck','driver','mobile','owner','from','to','goods','weight','packages','invoice','freight','ownerFreight','charges','status','remarks'];
+ $('editId').value=id;fields.forEach(k=>$(k).value=b[k]??'');
+ $('bookingForm').querySelector('button[type=submit]').textContent='Update Booking';
+ document.querySelectorAll('nav button')[1].click();window.scrollTo(0,0);
+}
+function deleteBooking(id){
+ if(!confirm('Delete this booking?'))return;
+ bookings=bookings.filter(b=>b.id!==id);save();
+}
+function renderSelects(){
+ const options=bookings.map(b=>`<option value="${b.id}">${esc(b.lr)} - ${esc(b.customer)}</option>`).join('');
+ $('biltySelect').innerHTML='<option value="">Choose LR Number</option>'+options;
+ $('payBooking').innerHTML='<option value="">Choose LR Number</option>'+options;
+}
+$('biltySelect').addEventListener('change',previewBilty);
+function previewBilty(){
+ const b=bookings.find(x=>x.id===$('biltySelect').value);
+ $('biltyPreview').innerHTML=b?biltyHTML(b):'';
+}
+function biltyHTML(b){
+ return `<div id="printArea" style="border:2px solid #172d50;padding:18px;margin-top:18px;background:white;color:#17243a">
+ <center><h2 style="margin:4px">BOMBAY GUJARAT ROADLINES</h2><b>TRANSPORT & LOGISTICS MANAGEMENT</b><hr><h3>GOODS CONSIGNMENT NOTE / LR</h3></center>
+ <p><b>LR Number:</b> ${esc(b.lr)} &nbsp; <b>Date:</b> ${esc(b.date)}</p><hr>
+ <p><b>Consignor / Customer:</b> ${esc(b.customer)}<br><b>GSTIN:</b> ${esc(b.gstin)}<br><b>Consignee:</b> ${esc(b.consignee)}</p>
+ <p><b>From:</b> ${esc(b.from)} &nbsp; <b>To:</b> ${esc(b.to)}</p>
+ <p><b>Truck Number:</b> ${esc(b.truck)}<br><b>Driver:</b> ${esc(b.driver)} &nbsp; <b>Mobile:</b> ${esc(b.mobile)}</p>
+ <p><b>Goods:</b> ${esc(b.goods)}<br><b>Weight:</b> ${esc(b.weight)} &nbsp; <b>Packages:</b> ${esc(b.packages)}<br><b>Invoice No:</b> ${esc(b.invoice)}</p>
+ <p><b>Freight:</b> ${money(b.freight)} &nbsp; <b>Other Charges:</b> ${money(b.charges)}</p>
+ <p><b>Remarks:</b> ${esc(b.remarks)}</p><br><br>
+ <div style="display:flex;justify-content:space-between"><span>Consignor Signature</span><span>Driver Signature</span><span>Authorized Signatory</span></div>
+ </div>`;
+}
+function printBilty(){
+ if(!$('biltySelect').value){alert('Please select a booking first');return}
+ const area=$('printArea');if(!area){alert('Bilty preview not ready');return}
+ const w=window.open('','_blank');if(!w){alert('Allow pop-ups to print the bilty');return}
+ w.document.write('<html><head><title>LR Bilty</title><style>body{font-family:Arial;padding:25px}#printArea{max-width:850px;margin:auto}@media print{button{display:none}}</style></head><body>'+area.outerHTML+'</body></html>');
+ w.document.close();w.focus();w.print();
+}
+$('paymentForm').addEventListener('submit',e=>{
+ e.preventDefault();if(!val('payBooking'))return alert('Select a booking');
+ payments.unshift({id:String(Date.now()),bookingId:val('payBooking'),type:val('payType'),amount:Number(val('payAmount')),date:val('payDate'),mode:val('payMode'),ref:val('payRef')});
+ save();e.target.reset();$('payDate').value=new Date().toISOString().slice(0,10);alert('Payment saved!');
+});
+function deletePayment(id){if(confirm('Delete this payment?')){payments=payments.filter(p=>p.id!==id);save()}}
+$('expenseForm').addEventListener('submit',e=>{
+ e.preventDefault();expenses.unshift({id:String(Date.now()),date:val('expDate'),category:val('expCategory'),amount:Number(val('expAmount')),desc:val('expDesc')});
+ save();e.target.reset();$('expDate').value=new Date().toISOString().slice(0,10);alert('Expense saved!');
+});
+function deleteExpense(id){if(confirm('Delete this expense?')){expenses=expenses.filter(x=>x.id!==id);save()}}
+function renderPayments(){
+ $('paymentRows').innerHTML=payments.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(bookings.find(b=>b.id===p.bookingId)?.lr||'Deleted booking')}</td><td>${p.type==='customer'?'Customer Received':'Owner Paid'}</td><td>${money(p.amount)}</td><td>${esc(p.mode)}</td><td><button class="btn red" onclick="deletePayment('${p.id}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="6" class="empty">No payments yet</td></tr>';
+}
+function renderExpenses(){
+ $('expenseRows').innerHTML=expenses.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.category)}</td><td>${esc(x.desc)}</td><td>${money(x.amount)}</td><td><button class="btn red" onclick="deleteExpense('${x.id}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No expenses yet</td></tr>';
+}
+function renderLedgers(){
+ const customers={},owners={};
+ bookings.forEach(b=>{
+  if(!customers[b.customer])customers[b.customer]={total:0,paid:0};
+  customers[b.customer].total+=Number(b.freight)+Number(b.charges);
+  customers[b.customer].paid+=received(b.id,'customer');
+  if(!owners[b.owner])owners[b.owner]={total:0,paid:0};
+  owners[b.owner].total+=Number(b.ownerFreight);
+  owners[b.owner].paid+=received(b.id,'owner');
+ });
+ $('customerLedger').innerHTML=Object.entries(customers).map(([n,x])=>`<tr><td>${esc(n)}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${money(x.total-x.paid)}</td></tr>`).join('')||'<tr><td colspan="4">No records</td></tr>';
+ $('ownerLedger').innerHTML=Object.entries(owners).map(([n,x])=>`<tr><td>${esc(n||'Not specified')}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${money(x.total-x.paid)}</td></tr>`).join('')||'<tr><td colspan="4">No records</td></tr>';
+}
+function renderDashboard(){
+ const freight=bookings.reduce((s,b)=>s+Number(b.freight)+Number(b.charges),0);
+ const brokerage=bookings.reduce((s,b)=>s+Number(b.freight)-Number(b.ownerFreight),0);
+ const pending=bookings.reduce((s,b)=>s+Number(b.freight)+Number(b.charges)-received(b.id,'customer'),0);
+ const owner=bookings.reduce((s,b)=>s+Number(b.ownerFreight)-received(b.id,'owner'),0);
+ $('dBookings').textContent=bookings.length;$('dFreight').textContent=money(freight);
+ $('dBrokerage').textContent=money(brokerage);$('dPending').textContent=money(pending);
+ $('dOwner').textContent=money(owner);$('dExpenses').textContent=money(expenses.reduce((s,x)=>s+Number(x.amount),0));
+ $('recent').innerHTML=bookings.slice(0,5).map(b=>`<p><b>${esc(b.lr)}</b> · ${esc(b.customer)} · ${esc(b.from)} to ${esc(b.to)} · ${money(b.freight)}</p>`).join('')||'<p class="empty">No bookings added yet</p>';
+}
+function renderAll(){renderDashboard();renderBookings();renderPayments();renderExpenses();renderLedgers();renderSelects();if($('biltySelect').value)previewBilty()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function backup(){
+ const blob=new Blob([JSON.stringify({bookings,payments,expenses},null,2)],{type:'application/json'});
+ download(blob,'BGRL-backup-'+new Date().toISOString().slice(0,10)+'.json');
+}
+function restoreBackup(){
+ const file=$('restoreFile').files[0];if(!file)return alert('Choose a JSON backup file first
