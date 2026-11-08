@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BGRL | Transport Management</title>
+<style>
+:root {
+  --navy:#07152f;
+  --blue:#123c79;
+  --gold:#e8b84d;
+  --bg:#f1f5fb;
+  --white:#fff;
+  --green:#12845b;
+  --red:#d74747;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:var(--bg);color:#17243b;
+}
+header{
+ background:linear-gradient(120deg,#06132b,#164b91);
+ color:white;padding:22px 18px;
+ border-bottom:4px solid var(--gold);
+}
+header h1{margin:0;font-size:23px;letter-spacing:1px}
+header p{margin:7px 0 0;color:#d8e5ff;font-size:12px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+button,.btn{
+ border:0;border-radius:9px;padding:11px 14px;
+ background:var(--blue);color:white;font-weight:bold;
+ cursor:pointer;transition:.2s;
+}
+button:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.gold{background:var(--gold);color:#18233a}
+.red{background:var(--red)}
+.green{background:var(--green)}
+.dark{background:#17243b}
+nav{
+ display:flex;gap:7px;overflow-x:auto;padding:12px;
+ background:#fff;box-shadow:0 3px 12px #0000000c;
+ position:sticky;top:0;z-index:5;
+}
+nav button{white-space:nowrap;font-size:12px;padding:10px 13px}
+nav button.active{background:var(--gold);color:#17243b}
+main{max-width:1200px;margin:auto;padding:16px}
+.page{display:none;animation:appear .3s ease}
+.page.active{display:block}
+@keyframes appear{
+ from{opacity:0;transform:translateY(8px)}
+ to{opacity:1;transform:translateY(0)}
+}
+h2{color:var(--navy);margin-top:8px}
+h3{color:var(--blue)}
+.cards{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
+ gap:12px;margin:15px 0;
+}
+.card{
+ background:white;padding:17px;border-radius:14px;
+ box-shadow:0 5px 20px #102d5510;
+ border-left:4px solid var(--gold);
+}
+.card small{color:#68778d}
+.card strong{display:block;font-size:25px;margin-top:9px;color:var(--blue)}
+.panel{
+ background:white;padding:18px;border-radius:14px;
+ margin:14px 0;box-shadow:0 5px 20px #102d550c;
+}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:12px;
+}
+label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
+input,select,textarea{
+ width:100%;padding:12px;border:1px solid #d5deeb;
+ border-radius:8px;background:#fbfdff;font-size:14px;
+}
+textarea{min-height:75px;resize:vertical}
+input:focus,select:focus,textarea:focus{
+ outline:2px solid #b9d1f5;border-color:var(--blue)
+}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:11px 9px;border-bottom:1px solid #e9edf4;text-align:left;font-size:13px}
+th{background:#edf3fc;color:#173c70}
+.badge{padding:5px 8px;border-radius:20px;font-size:11px;font-weight:bold}
+.paid{background:#d9f6e9;color:#08774e}
+.pending{background:#fff0d1;color:#976000}
+.empty{text-align:center;color:#8491a5;padding:25px}
+.search{margin:12px 0}
+footer{text-align:center;padding:25px;color:#7b8798;font-size:12px}
+hr{border:0;border-top:1px solid #e9edf4;margin:18px 0}
+.notice{background:#fff7df;padding:12px;border-radius:9px;font-size:12px;color:#77530a}
+@media(max-width:600px){
+ header h1{font-size:19px}
+ main{padding:10px}
+ .panel{padding:13px}
+}
+@media print{
+ body{background:white}
+ header,nav,.no-print,footer{display:none!important}
+ main{padding:0}
+ .page{display:none!important}
+ #printArea{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <h1>BOMBAY GUJARAT ROADLINES</h1>
+ <p>TRANSPORT & LOGISTICS MANAGEMENT</p>
+ <div class="top-actions">
+  <button class="gold" onclick="toggleLanguage()">हिंदी / English</button>
+  <button onclick="backupData()">Backup Data</button>
+  <button onclick="document.getElementById('restoreFile').click()">Restore Backup</button>
+  <input type="file" id="restoreFile" accept=".json" hidden onchange="restoreData(event)">
+ </div>
+</header>
+
+<nav class="no-print">
+ <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+ <button onclick="showPage('bookings',this)">Bookings</button>
+ <button onclick="showPage('newbooking',this)">+ New Booking</button>
+ <button onclick="showPage('bilty',this)">Bilty / LR</button>
+ <button onclick="showPage('customers',this)">Customer Ledger</button>
+ <button onclick="showPage('owners',this)">Owner Ledger</button>
+ <button onclick="showPage('expenses',this)">Expenses</button>
+ <button onclick="showPage('reports',this)">Reports</button>
+</nav>
+
+<main>
+
+<section id="dashboard" class="page active">
+ <h2>Business Dashboard</h2>
+ <p>Welcome to BGRL Management System</p>
+ <div class="cards">
+  <div class="card"><small>Total Bookings</small><strong id="totalBookings">0</strong></div>
+  <div class="card"><small>Total Freight</small><strong id="totalFreight">₹0</strong></div>
+  <div class="card"><small>Received</small><strong id="totalReceived">₹0</strong></div>
+  <div class="card"><small>Customer Pending</small><strong id="customerPending">₹0</strong></div>
+  <div class="card"><small>Owner Pending</small><strong id="ownerPending">₹0</strong></div>
+  <div class="card"><small>Business Profit*</small><strong id="totalProfit">₹0</strong></div>
+ </div>
+ <div class="panel">
+  <h3>Recent Bookings</h3>
+  <div id="recentBookings"></div>
+ </div>
+ <div class="panel">
+  <h3>Payment Reminders</h3>
+  <div id="reminders"></div>
+ </div>
+ <p class="notice">*Estimated profit = customer freight received minus owner payments and recorded expenses. Confirm all entries before using figures for accounts.</p>
+</section>
+
+<section id="newbooking" class="page">
+ <h2>New Transport Booking</h2>
+ <div class="panel">
+  <form id="bookingForm">
+   <input type="hidden" id="editId">
+   <div class="grid">
+    <div><label>Booking Date</label><input type="date" id="date" required></div>
+    <div><label>LR / Bilty Number</label><input id="lr" placeholder="BGRL/001"></div>
+    <div><label>Customer Name</label><input id="customer" required placeholder="Customer / Company"></div>
+    <div><label>Customer Mobile</label><input id="customerPhone" placeholder="Mobile number"></div>
+    <div><label>Customer GSTIN</label><input id="gstin" placeholder="GST number"></div>
+    <div><label>Truck Number</label><input id="truck" required placeholder="GJ 15 AB 1234"></div>
+    <div><label>Driver Name</label><input id="driver" placeholder="Driver name"></div>
+    <div><label>Driver Mobile</label><input id="driverPhone" placeholder="Driver mobile"></div>
+    <div><label>Truck Owner Name</label><input id="owner" required placeholder="Owner name"></div>
+    <div><label>Owner Mobile</label><input id="ownerPhone" placeholder="Owner mobile"></div>
+    <div><label>From</label><input id="from" required placeholder="Loading location"></div>
+    <div><label>To</label><input id="to" required placeholder="Unloading location"></div>
+    <div><label>Material / Goods</label><input id="goods" placeholder="Goods description"></div>
+    <div><label>Weight</label><input id="weight" placeholder="e.g. 10 MT"></div>
+    <div><label>Customer Freight (₹)</label><input type="number" id="freight" min="0" required></div>
+    <div><label>Owner Freight (₹)</label><input type="number" id="ownerFreight" min="0" required></div>
+    <div><label>Brokerage (₹)</label><input type="number" id="brokerage" min="0" value="0"></div>
+    <div><label>Expected Delivery Date</label><input type="date" id="deliveryDate"></div>
+   </div>
+   <label>Remarks</label><textarea id="remarks" placeholder="Additional information"></textarea>
+   <div class="actions">
+    <button class="green" type="submit">Save Booking</button>
+    <button type="reset" class="dark" onclick="clearForm()">Clear Form</button>
+   </div>
+  </form>
+ </div>
+</section>
+
+<section id="bookings" class="page">
+ <h2>All Transport Bookings</h2>
+ <input class="search" id="searchBooking" placeholder="Search LR, customer, truck, route..." oninput="renderBookings()">
+ <div class="panel table-wrap" id="bookingTable"></div>
+</section>
+
+<section id="bilty" class="page">
+ <h2>LR / Bilty Generator</h2>
+ <div class="panel">
+  <label>Select Booking</label>
+  <select id="biltySelect" onchange="showBilty()"><option value="">Select booking</option></select>
+  <div id="biltyPreview"></div>
+ </div>
+</section>
+
+<section id="customers" class="page">
+ <h2>Customer Ledger</h2>
+ <div class="panel">
+  <label>Customer Name</label>
+  <select id="customerSelect" onchange="renderCustomerLedger()"></select>
+  <div id="customerLedger"></div>
+ </div>
+</section>
+
+<section id="owners" class="page">
+ <h2>Truck Owner Ledger</h2>
+ <div class="panel">
+  <label>Truck Owner</label>
+  <select id="ownerSelect" onchange="renderOwnerLedger()"></select>
+  <div id="ownerLedger"></div>
+ </div>
+</section>
+
+<section id="expenses" class="page">
+ <h2>Expenses & Payments</h2>
+ <div class="panel">
+  <h3>Add Business Expense</h3>
+  <form id="expenseForm">
+   <div class="grid">
+    <div><label>Date</label><input id="expenseDate" type="date" required></div>
+    <div><label>Expense Category</label>
+     <select id="expenseCategory">
+      <option>Office</option><option>Phone / Internet</option>
+      <option>Travel</option><option>Staff</option>
+      <option>Other</option>
+     </select>
+    </div>
+    <div><label>Description</label><input id="expenseDesc" required></div>
+    <div><label>Amount (₹)</label><input id="expenseAmount" type="number" min="1" required></div>
+   </div>
+   <button class="green" type="submit">Add Expense</button>
+  </form>
+ </div>
+ <div class="panel">
+  <h3>Record Payment</h3>
+  <div class="grid">
+   <div><label>Booking</label><select id="paymentBooking"></select></div>
+   <div><label>Payment Type</label>
+    <select id="paymentType"><option value="customer">Received from Customer</option><option value="owner">Paid to Truck Owner</option></select>
+   </div>
+   <div><label>Amount (₹)</label><input id="paymentAmount" type="number" min="1"></div>
+   <div><label>Payment Date</label><input id="paymentDate" type="date"></div>
+   <div><label>Mode</label><select id="paymentMode"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Cheque</option><option>Other</option></select></div>
+   <div><label>Reference / Note</label><input id="paymentNote" placeholder="UTR / receipt / note"></div>
+  </div>
+  <button class="green" onclick="recordPayment()">Save Payment</button>
+ </div>
+ <div class="panel">
+  <h3>Expense History</h3>
+  <div id="expenseTable" class="table-wrap"></div>
+ </div>
+</section>
+
+<section id="reports" class="page">
+ <h2>Reports & Data Management</h2>
+ <div class="cards">
+  <div class="card"><small>Total Customer Freight</small><strong id="rFreight">₹0</strong></div>
+  <div class="card"><small>Total Owner Freight</small><strong id="rOwner">₹0</strong></div>
+  <div class="card"><small>Total Expenses</small><strong id="rExpense">₹0</strong></div>
+  <div class="card"><small>Estimated Brokerage</small><strong id="rBrokerage">₹0</strong></div>
+ </div>
+ <div class="panel">
+  <h3>Export & Backup</h3>
+  <div class="actions">
+   <button onclick="exportCSV()">Export Bookings CSV</button>
+   <button onclick="exportExpenses()">Export Expenses CSV</button>
+   <button class="gold" onclick="backupData()">Download Full Backup</button>
+   <button onclick="document.getElementById('restoreFile').click()">Restore Backup</button>
+  </div>
+ </div>
+ <div class="panel">
+  <h3>Data Safety</h3>
+  <p>Your data is saved in this browser on this device. It does not automatically sync to another phone or computer.</p>
+  <p class="notice">Regularly download a JSON backup and keep it somewhere safe. Clearing browser data may delete saved records.</p>
+ </div>
+</section>
+
+<div id="printArea"></div>
+</main>
+
+<footer>BOMBAY GUJARAT ROADLINES · TRANSPORT & LOGISTICS MANAGEMENT</footer>
+
+<script>
+const KEY="bgrl_bookings";
+const EXPKEY="bgrl_expenses";
+let bookings=JSON.parse(localStorage.getItem(KEY)||"[]");
+let expenses=JSON.parse(localStorage.getItem(EXPKEY)||"[]");
+let hindi=false;
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(bookings));
+ localStorage.setItem(EXPKEY,JSON.stringify(expenses));
+ refresh();
+}
+function money(n){return "₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function showPage(name,btn){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(name).classList.add("active");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ refresh();
+}
+function sum(a,field){return a.reduce((t,x)=>t+Number(x[field]||0),0)}
+function received(b){return Number(b.received||0)}
+function ownerPaid(b){return Number(b.ownerPaid||0)}
+function customerDue(b){return Math.max(0,Number(b.freight||0)-received(b))}
+function ownerDue(b){return Math.max(0,Number(b.ownerFreight||0)-ownerPaid(b))}
+
+document.getElementById("date").value=new Date().toISOString().slice(0,10);
+document.getElementById("expenseDate").value=new Date().toISOString().slice(0,10);
+document.getElementById("paymentDate").value=new Date().toISOString().slice(0,10);
+
+document.getElementById("bookingForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const old=bookings.find(b=>b.id===document.getElementById("editId").value);
+ const b={
+  id:old?.id||id(),
+  date:val("date"),lr:val("lr")||"BGRL-"+Date.now().toString().slice(-6),
+  customer:val("customer"),customerPhone:val("customerPhone"),gstin:val("gstin"),
+  truck:val("truck"),driver:val("driver"),driverPhone:val("driverPhone"),
+  owner:val("owner"),ownerPhone:val("ownerPhone"),from:val("from"),to:val("to"),
+  goods:val("goods"),weight:val("weight"),freight:+val("freight"),
+  ownerFreight:+val("ownerFreight"),brokerage:+val("brokerage"),
+  deliveryDate:val("deliveryDate"),remarks:val("remarks"),
+  received:old?.received||0,ownerPaid:old?.ownerPaid||0,
+  payments:old?.payments||[]
+ };
+ if(old)bookings=bookings.map(x=>x.id===old.id?b:x);
+ else bookings.unshift(b);
+ save();e.target.reset();clearForm();
+ alert("Booking saved successfully!");
+ showPage("bookings",document.querySelectorAll("nav button")[1]);
+});
+function val(id){return document.getElementById(id).value.trim()}
+function clearForm(){
+ document.getElementById("editId").value="";
+ document.getElementById("date").value=new Date().toISOString().slice(0,10);
+}
+function editBooking(id){
+ const b=bookings.find(x=>x.id===id);if(!b)return;
+ ["date","lr","customer","customerPhone","gstin","truck","driver","driverPhone","owner","ownerPhone","from","to","goods","weight","freight","ownerFreight","brokerage","deliveryDate","remarks"].forEach(k=>{
+  document.getElementById(k).value=b[k]??"";
+ });
+ document.getElementById("editId").value=b.id;
+ showPage("newbooking",document.querySelectorAll("nav button")[2]);
+}
+function deleteBooking(id){
+ if(!confirm("Delete this booking permanently?"))return;
+ bookings=bookings.filter(b=>b.id!==id);save();
+}
+function renderBookings(){
+ const q=(document.getElementById("searchBooking")?.value||"").toLowerCase();
+ const list=bookings.filter(b=>[b.lr,b.customer,b.truck,b.owner,b.from,b.to].join(" ").toLowerCase().includes(q));
+ document.getElementById("bookingTable").innerHTML=list.length?`
+ <table><thead><tr><th>LR / Date</th><th>Customer</th><th>Route</th><th>Truck</th><th>Freight</th><th>Received</th><th>Due</th><th>Actions</th></tr></thead><tbody>
+ ${list.map(b=>`<tr><td>${esc(b.lr)}<br>${esc(b.date)}</td><td>${esc(b.customer)}</td><td>${esc(b.from)} → ${esc(b.to)}</td><td>${esc(b.truck)}</td><td>${money(b.freight)}</td><td>${money(received(b))}</td><td>${money(customerDue(b))}</td><td><button onclick="editBooking('${b.id}')">Edit</button> <button onclick="selectBilty('${b.id}')">Bilty</button> <button class="red" onclick="deleteBooking('${b.id}')">Delete</button></td></tr>`).join("")}
+ </tbody></table>`:`<div class="empty">No bookings found</div>`;
+}
+function selectBilty(id){
+ document.getElementById("biltySelect").value=id;
+ showPage("bilty",document.querySelectorAll("nav button")[3]);showBilty();
+}
+function showBilty(){
+ const b=bookings.find(x=>x.id===document.getElementById("biltySelect").value);
+ if(!b){document.getElementById("biltyPreview").innerHTML="Select a booking";return}
+ document.getElementById("biltyPreview").innerHTML=`
+ <div id="biltyPaper" class="panel" style="border:2px solid #123c79;margin-top:15px">
+ <div style="text-align:center"><h2>BOMBAY GUJARAT ROADLINES</h2><b>TRANSPORT & LOGISTICS MANAGEMENT</b><h3>GOODS CONSIGNMENT NOTE / L.R. / BILTY</h3></div><hr>
+ <div class="grid">
+ <p><b>LR No:</b> ${esc(b.lr)}</p><p><b>Date:</b> ${esc(b.date)}</p>
+ <p><b>Consignor:</b> ${esc(b.customer)}</p><p><b>GSTIN:</b> ${esc(b.gstin)}</p>
+ <p><b>Truck No:</b> ${esc(b.truck)}</p><p><b>Driver:</b> ${esc(b.driver)} / ${esc(b.driverPhone)}</p>
+ <p><b>From:</b> ${esc(b.from)}</p><p><b>To:</b> ${esc(b.to)}</p>
+ <p><b>Consignee / Owner:</b> ${esc(b.owner)}</p><p><b>Goods:</b> ${esc(b.goods)}</p>
+ <p><b>Weight:</b> ${esc(b.weight)}</p><p><b>Freight:</b> ${money(b.freight)}</p>
+ </div><hr><p><b>Remarks:</b> ${esc(b.remarks)}</p>
+ <div style="display:flex;justify-content:space-between;margin-top:70px"><span>Consignor Signature</span><span>For BOMBAY GUJARAT ROADLINES</span></div>
+ </div><button class="gold no-print" onclick="printDocument('biltyPaper')">Print Bilty</button>`;
+}
+function printDocument(id){
+ const el=document.getElementById(id);if(!el)return;
+ const w=window.open("","_blank");
+ w.document.write(`<html><head><title>Print</title><style>body{font-family:Arial;padding:25px;color:#111}h2,h3{text-align:center}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}p{margin:8px 0}</style></head><body>${el.outerHTML}</body></html>`);
+ w.document.close();w.focus();w.print();
+}
+function fillSelect(id,values){
+ const s=document.getElementById(id),old=s.value;
+ s.innerHTML='<option value="">Select</option>'+values.map(v=>`<option>${esc(v)}</option>`).join("");
+ if(values.includes(old))s.value=old;
+}
+function renderCustomerLedger(){
+ const name=document.getElementById("customerSelect").value;
+ const list=bookings.filter(b=>b.customer===name);
+ document.getElementById("customerLedger").innerHTML=name?`
+ <h3>${esc(name)}</h3><p>Total Freight: ${money(sum(list,"freight"))} | Received: ${money(sum(list,"received"))} | Due: ${money(list.reduce((t,b)=>t+customerDue(b),0))}</p>
+ ${ledgerTable(list,"freight","received","Customer")}`:"Select customer";
+}
+function renderOwnerLedger(){
+ const name=document.getElementById("ownerSelect").value;
+ const list=bookings.filter(b=>b.owner===name);
+ document.getElementById("ownerLedger").innerHTML=name?`
+ <h3>${esc(name)}</h3><p>Total Freight: ${money(sum(list,"ownerFreight"))} | Paid: ${money(sum(list,"ownerPaid"))} | Due: ${money(list.reduce((t,b)=>t+ownerDue(b),0))}</p>
+ ${ledgerTable(list,"ownerFreight","ownerPaid","Owner")}`:"Select owner";
+}
+function ledgerTable(list,total,paid,type){
+ return `<div class="table-wrap"><table><tr><th>LR</th><th>Date</th><th>Truck</th><th>Freight</th><th>Paid</th><th>Balance</th></tr>${list.map(b=>`<tr><td>${esc(b.lr)}</td><td>${esc(b.date)}</td><td>${esc(b.truck)}</td><td>${money(b[total])}</td><td>${money(b[paid])}</td><td>${money(type==="Customer"?customerDue(b):ownerDue(b))}</td></tr>`).join("")}</table></div>`;
+}
+document.getElementById("expenseForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ expenses.unshift({id:id(),date:val("expenseDate"),category:val("expenseCategory"),desc:val("expenseDesc"),amount:+val("expenseAmount")});
+ save();e.target.reset();document.getElementById("expenseDate").value=new Date().toISOString().slice(0,10);
+});
+function recordPayment(){
+ const b=bookings.find(x=>x.id===document.getElementById("paymentBooking").value);
+ const amount=+val("pa
