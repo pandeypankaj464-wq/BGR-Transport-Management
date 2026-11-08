@@ -1,348 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOMBAY GUJARAT ROADLINES</title>
 
-<!DOCTYPE <header>
-  <div class="brand">
-    <h2>BOMBAY GUJARAT ROADLINES</h2>
-    <p>TRANSPORT & LOGISTICS MANAGEMENT</p>
-  </div>
-  <button class="gold" onclick="toggleLanguage()" id="langBtn">हिंदी</button>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07162e;color:white;font-family:Arial,sans-serif;font-size:17px}
+header{background:linear-gradient(120deg,#07162e,#174b91);padding:30px 15px;text-align:center;border-bottom:4px solid #d9ad45}
+header h1{font-size:clamp(23px,5vw,35px);margin:0;font-weight:900}
+header p{color:#f2c75c;font-weight:bold;letter-spacing:2px;font-size:14px}
+nav{background:#102b52;padding:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+button{border:0;border-radius:9px;padding:14px 18px;background:#e0b64d;color:#07162e;font-size:16px;font-weight:bold;cursor:pointer;min-height:48px}
+nav button{background:#1d4e89;color:white;border:1px solid #547ca9}
+button:active{opacity:.7}
+main{max-width:1200px;margin:auto;padding:18px}
+.section{display:none}
+.section.active{display:block}
+h2{color:#f2c75c;font-size:26px}
+h3{color:#f2c75c}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.card{background:linear-gradient(145deg,#173968,#102746);padding:22px;border-radius:13px;border:1px solid #45658b;box-shadow:0 5px 15px #0005}
+.card h3{font-size:15px;color:#c5d4e8;margin:0 0 13px}
+.card strong{font-size:27px;color:#f2c75c}
+.panel{background:#102b52;padding:22px;border-radius:13px;margin:18px 0;border:1px solid #345782}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{display:block;color:#f2c75c;font-weight:bold;font-size:15px}
+input{width:100%;padding:15px;margin:8px 0 16px;border:1px solid #aabbd0;border-radius:8px;font-size:16px;background:white;color:#102b52;min-height:48px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:750px}
+th,td{padding:13px;border-bottom:1px solid #345782;text-align:left;font-size:14px}
+th{background:#d9ad45;color:#07162e}
+td{color:white}
+.danger{background:#c03939;color:white}
+footer{text-align:center;padding:28px;background:#102b52;color:#d9ad45;margin-top:30px}
+@media(max-width:600px){
+ main{padding:12px}
+ nav button{flex:1 1 140px;padding:14px 7px;font-size:14px}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .card{padding:15px}
+ .card strong{font-size:21px}
+ .panel{padding:14px}
+}
+</style>
+</head>
+
+<body>
+<header>
+<h1>BOMBAY GUJARAT ROADLINES</h1>
+<p>TRANSPORT & LOGISTICS MANAGEMENT</p>
 </header>
 
+<nav>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('booking')">+ New Booking</button>
+<button onclick="showPage('records')">All Bookings</button>
+<button onclick="showPage('customers')">Customer Ledger</button>
+<button onclick="showPage('owners')">Owner Ledger</button>
+<button onclick="showPage('expenses')">Expenses</button>
+<button onclick="exportCSV()">Export CSV</button>
+<button onclick="backupData()">Backup</button>
+<button onclick="document.getElementById('restoreFile').click()">Restore</button>
+</nav>
+
 <main>
-  <div class="toolbar">
-    <button onclick="showSection('dashboard')" id="navDash">Dashboard</button>
-    <button onclick="showSection('booking')" id="navBooking">+ New Booking</button>
-    <button onclick="showSection('records')" id="navRecords">All Bookings</button>
-    <button class="dark" onclick="exportCSV()">Export CSV</button>
-    <button class="gray" onclick="backupData()">Backup Data</button>
-    <button class="gray" onclick="document.getElementById('restoreFile').click()">Restore Data</button>
-    <input type="file" id="restoreFile" accept=".json" hidden onchange="restoreData(event)">
-  </div>
 
-  <section id="dashboard">
-    <h3 id="welcome">Business Dashboard</h3>
-    <div class="stats">
-      <div class="stat"><p id="s1">Total Bookings</p><strong id="totalBookings">0</strong></div>
-      <div class="stat"><p id="s2">Total Freight</p><strong id="totalFreight">₹0</strong></div>
-      <div class="stat"><p id="s3">Total Brokerage</p><strong id="totalBrokerage">₹0</strong></div>
-      <div class="stat"><p id="s4">Pending Payments</p><strong id="totalPending">₹0</strong></div>
-    </div>
+<section id="dashboard" class="section active">
+<h2>Business Dashboard</h2>
+<div class="cards">
+<div class="card"><h3>Total Bookings</h3><strong id="totalBookings">0</strong></div>
+<div class="card"><h3>Total Freight</h3><strong id="totalFreight">₹0</strong></div>
+<div class="card"><h3>Brokerage Earned</h3><strong id="totalBrokerage">₹0</strong></div>
+<div class="card"><h3>Customer Due</h3><strong id="customerDue">₹0</strong></div>
+<div class="card"><h3>Owner Due</h3><strong id="ownerDue">₹0</strong></div>
+<div class="card"><h3>Total Expenses</h3><strong id="totalExpenses">₹0</strong></div>
+</div>
+<div class="panel">
+<h3>Quick Actions</h3>
+<button onclick="showPage('booking')">Add Booking</button>
+<button onclick="showPage('customers')">Customer Ledger</button>
+<button onclick="showPage('owners')">Owner Ledger</button>
+</div>
+</section>
 
-    <div class="panel">
-      <h3 id="recentTitle">Recent Bookings</h3>
-      <div class="tablewrap">
-        <table>
-          <thead><tr>
-            <th>Booking</th><th>Date</th><th>Customer</th>
-            <th>Truck</th><th>Route</th><th>Freight</th>
-          </tr></thead>
-          <tbody id="recentRows"></tbody>
-        </table>
-      </div>
-      <p class="muted" id="recentEmpty">Your recent bookings will appear here.</p>
-    </div>
-  </section>
+<section id="booking" class="section">
+<h2>New Transport Booking</h2>
+<div class="panel">
+<form id="bookingForm">
+<div class="grid">
+<div><label>Date</label><input type="date" id="bDate" required></div>
+<div><label>Truck Number</label><input id="bTruck" placeholder="GJ01AB1234" required></div>
+<div><label>Loading From</label><input id="bFrom" required></div>
+<div><label>Unloading To</label><input id="bTo" required></div>
+<div><label>Customer Name</label><input id="bCustomer" required></div>
+<div><label>Customer GSTIN</label><input id="bGstin"></div>
+<div><label>Truck Owner Name</label><input id="bOwner" required></div>
+<div><label>Driver Name</label><input id="bDriver"></div>
+<div><label>Customer Freight ₹</label><input type="number" id="bFreight" min="0" required></div>
+<div><label>Amount Received ₹</label><input type="number" id="bReceived" min="0" value="0" required></div>
+<div><label>Owner Freight ₹</label><input type="number" id="bOwnerFreight" min="0" required></div>
+<div><label>Amount Paid to Owner ₹</label><input type="number" id="bOwnerPaid" min="0" value="0" required></div>
+</div>
+<button type="submit">SAVE BOOKING</button>
+</form>
+</div>
+</section>
 
-  <section id="booking" class="hidden">
-    <div class="panel">
-      <h3 id="formTitle">Add New Transport Booking</h3>
-      <form id="bookingForm">
-        <div class="formgrid">
-          <div class="field">
-            <label>Booking Date</label>
-            <input type="date" id="date" required>
-          </div>
-          <div class="field">
-            <label>Customer Name *</label>
-            <input id="customer" required placeholder="Customer name">
-          </div>
-          <div class="field">
-            <label>Customer GSTIN</label>
-            <input id="gstin" placeholder="GST number">
-          </div>
-          <div class="field">
-            <label>Truck Number *</label>
-            <input id="truck" required placeholder="GJ 15 XX 1234">
-          </div>
-          <div class="field">
-            <label>Truck Owner</label>
-            <input id="owner" placeholder="Owner name">
-          </div>
-          <div class="field">
-            <label>Driver Name</label>
-            <input id="driver" placeholder="Driver name">
-          </div>
-          <div class="field">
-            <label>From *</label>
-            <input id="from" required placeholder="Loading location">
-          </div>
-          <div class="field">
-            <label>To *</label>
-            <input id="to" required placeholder="Delivery location">
-          </div>
-          <div class="field">
-            <label>Freight Amount (₹) *</label>
-            <input type="number" id="freight" min="0" step="0.01" required>
-          </div>
-          <div class="field">
-            <label>Brokerage (₹)</label>
-            <input type="number" id="brokerage" min="0" step="0.01" value="0">
-          </div>
-          <div class="field">
-            <label>Amount Received (₹)</label>
-            <input type="number" id="received" min="0" step="0.01" value="0">
-          </div>
-          <div class="field">
-            <label>Payment Status</label>
-            <select id="payment">
-              <option value="Pending">Pending</option>
-              <option value="Partial">Partial</option>
-              <option value="Paid">Paid</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label>Notes</label>
-          <textarea id="notes" placeholder="Additional details..."></textarea>
-        </div>
-        <div class="actions">
-          <button type="submit" class="gold" id="saveBtn">Save Booking</button>
-          <button type="button" class="gray" onclick="resetForm()">Clear Form</button>
-        </div>
-      </form>
-    </div>
-  </section>
+<section id="records" class="section">
+<h2>All Transport Bookings</h2>
+<div class="panel">
+<input id="search" placeholder="Search truck, customer, owner or route..." oninput="render()">
+<div class="tablewrap">
+<table>
+<thead><tr>
+<th>Date</th><th>Truck</th><th>Route</th><th>Customer</th>
+<th>Owner</th><th>Freight</th><th>Received</th>
+<th>Brokerage</th><th>Action</th>
+</tr></thead>
+<tbody id="bookingRows"></tbody>
+</table>
+</div>
+</div>
+</section>
 
-  <section id="records" class="hidden">
-    <div class="panel">
-      <h3 id="recordsTitle">All Transport Bookings</h3>
-      <input id="search" placeholder="Search customer, truck, route or booking..." oninput="renderRecords()">
-      <br><br>
-      <div class="tablewrap">
-        <table>
-          <thead><tr>
-            <th>ID</th><th>Date</th><th>Customer</th><th>Truck</th>
-            <th>Route</th><th>Freight</th><th>Brokerage</th>
-            <th>Received</th><th>Balance</th><th>Status</th><th>Action</th>
-          </tr></thead>
-          <tbody id="bookingRows"></tbody>
-        </table>
-      </div>
-      <p class="muted" id="emptyMessage">No bookings added yet.</p>
-    </div>
-  </section>
+<section id="customers" class="section">
+<h2>Customer Ledger</h2>
+<div class="panel tablewrap">
+<table>
+<thead><tr><th>Customer</th><th>Total Freight</th><th>Received</th><th>Balance Due</th></tr></thead>
+<tbody id="customerRows"></tbody>
+</table>
+</div>
+</section>
+
+<section id="owners" class="section">
+<h2>Truck Owner Ledger</h2>
+<div class="panel tablewrap">
+<table>
+<thead><tr><th>Owner</th><th>Total Freight</th><th>Amount Paid</th><th>Balance Due</th></tr></thead>
+<tbody id="ownerRows"></tbody>
+</table>
+</div>
+</section>
+
+<section id="expenses" class="section">
+<h2>Business Expenses</h2>
+<div class="panel">
+<form id="expenseForm">
+<label>Expense Description</label>
+<input id="eName" placeholder="Office, phone, etc." required>
+<label>Amount ₹</label>
+<input type="number" id="eAmount" min="1" required>
+<label>Date</label>
+<input type="date" id="eDate" required>
+<button type="submit">ADD EXPENSE</button>
+</form>
+</div>
+<div class="panel tablewrap">
+<table>
+<thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Action</th></tr></thead>
+<tbody id="expenseRows"></tbody>
+</table>
+</div>
+</section>
+
+<input type="file" id="restoreFile" accept=".json" hidden onchange="restoreData(event)">
+
 </main>
 
 <footer>
-  BOMBAY GUJARAT ROADLINES<br>
-  TRANSPORT & LOGISTICS MANAGEMENT
+<strong>BOMBAY GUJARAT ROADLINES</strong><br>
+TRANSPORT & LOGISTICS MANAGEMENT<br>
+Business Management System
 </footer>
 
 <script>
-let bookings = [];
-let hindi = false;
+const $=id=>document.getElementById(id);
+let bookings=JSON.parse(localStorage.getItem('bgrl_bookings')||'[]');
+let expenses=JSON.parse(localStorage.getItem('bgrl_expenses')||'[]');
 
-try {
-  bookings = JSON.parse(localStorage.getItem("bgrl_bookings") || "[]");
-  if (!Array.isArray(bookings)) bookings = [];
-} catch(e) { bookings = []; }
+function money(n){
+return '₹'+Number(n||0).toLocaleString('en-IN');
+}
+function safe(v){
+return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function showPage(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+$(id).classList.add('active');
+render();
+window.scrollTo(0,0);
+}
+function save(){
+localStorage.setItem('bgrl_bookings',JSON.stringify(bookings));
+localStorage.setItem('bgrl_expenses',JSON.stringify(expenses));
+render();
+}
 
-const $ = id => document.getElementById(id);
-const money = n => "₹" + Number(n || 0).toLocaleString("en-IN", {
-  maximumFractionDigits:2
+$('bDate').value=new Date().toISOString().slice(0,10);
+$('eDate').value=new Date().toISOString().slice(0,10);
+
+$('bookingForm').addEventListener('submit',e=>{
+e.preventDefault();
+let b={
+id:Date.now(),date:$('bDate').value,
+truck:$('bTruck').value.trim().toUpperCase(),
+from:$('bFrom').value.trim(),to:$('bTo').value.trim(),
+customer:$('bCustomer').value.trim(),gstin:$('bGstin').value.trim(),
+owner:$('bOwner').value.trim(),driver:$('bDriver').value.trim(),
+freight:Number($('bFreight').value),
+received:Number($('bReceived').value),
+ownerFreight:Number($('bOwnerFreight').value),
+ownerPaid:Number($('bOwnerPaid').value)
+};
+if(b.received>b.freight||b.ownerPaid>b.ownerFreight){
+alert('Payment amount cannot be greater than freight.');
+return;
+}
+bookings.push(b);
+save();
+e.target.reset();
+$('bDate').value=new Date().toISOString().slice(0,10);
+alert('Booking saved!');
+showPage('records');
 });
 
-function saveData(){
-  localStorage.setItem("bgrl_bookings", JSON.stringify(bookings));
-  updateDashboard();
-  renderRecords();
-}
-
-function showSection(name){
-  ["dashboard","booking","records"].forEach(id =>
-    $(id).classList.toggle("hidden", id !== name)
-  );
-  if(name === "records") renderRecords();
-  if(name === "dashboard") updateDashboard();
-}
-
-function updateDashboard(){
-  $("totalBookings").textContent = bookings.length;
-  $("totalFreight").textContent = money(
-    bookings.reduce((s,b)=>s+Number(b.freight),0)
-  );
-  $("totalBrokerage").textContent = money(
-    bookings.reduce((s,b)=>s+Number(b.brokerage),0)
-  );
-  $("totalPending").textContent = money(
-    bookings.reduce((s,b)=>s+Math.max(0,Number(b.freight)-Number(b.received)),0)
-  );
-
-  $("recentRows").innerHTML = bookings.slice(-5).reverse().map(b => `
-    <tr>
-      <td>${esc(b.id)}</td>
-      <td>${esc(b.date)}</td>
-      <td>${esc(b.customer)}</td>
-      <td>${esc(b.truck)}</td>
-      <td>${esc(b.from)} → ${esc(b.to)}</td>
-      <td>${money(b.freight)}</td>
-    </tr>
-  `).join("");
-
-  $("recentEmpty").style.display = bookings.length ? "none" : "block";
-}
-
-function esc(value){
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[c]);
-}
-
-$("bookingForm").addEventListener("submit", function(e){
-  e.preventDefault();
-
-  const freight = Number($("freight").value);
-  const received = Number($("received").value);
-  const brokerage = Number($("brokerage").value || 0);
-
-  if(received > freight){
-    alert("Received amount cannot exceed freight.");
-    return;
-  }
-
-  const b = {
-    id:"BGRL-" + Date.now().toString().slice(-7),
-    date:$("date").value,
-    customer:$("customer").value.trim(),
-    gstin:$("gstin").value.trim(),
-    truck:$("truck").value.trim().toUpperCase(),
-    owner:$("owner").value.trim(),
-    driver:$("driver").value.trim(),
-    from:$("from").value.trim(),
-    to:$("to").value.trim(),
-    freight, brokerage, received,
-    payment:$("payment").value,
-    notes:$("notes").value.trim()
-  };
-
-  b.payment = received === 0 ? "Pending" :
-    received >= freight ? "Paid" : "Partial";
-
-  bookings.push(b);
-  saveData();
-  resetForm();
-  showSection("dashboard");
-  alert("Booking saved successfully!");
+$('expenseForm').addEventListener('submit',e=>{
+e.preventDefault();
+expenses.push({
+id:Date.now(),name:$('eName').value.trim(),
+amount:Number($('eAmount').value),date:$('eDate').value
+});
+save();
+e.target.reset();
+$('eDate').value=new Date().toISOString().slice(0,10);
+alert('Expense saved!');
 });
 
-function resetForm(){
-  $("bookingForm").reset();
-  $("date").value = new Date().toISOString().slice(0,10);
-  $("brokerage").value = 0;
-  $("received").value = 0;
-}
+function render(){
+let total=bookings.reduce((s,b)=>s+b.freight,0);
+let brokerage=bookings.reduce((s,b)=>s+b.freight-b.ownerFreight,0);
+let received=bookings.reduce((s,b)=>s+b.received,0);
+let ownerTotal=bookings.reduce((s,b)=>s+b.ownerFreight,0);
+let paid=bookings.reduce((s,b)=>s+b.ownerPaid,0);
+let exp=expenses.reduce((s,e)=>s+e.amount,0);
 
-function renderRecords(){
-  const q = $("search").value.toLowerCase();
-  const filtered = bookings.filter(b =>
-    [b.id,b.customer,b.truck,b.from,b.to,b.owner,b.driver]
-      .some(v=>String(v || "").toLowerCase().includes(q))
-  );
+$('totalBookings').textContent=bookings.length;
+$('totalFreight').textContent=money(total);
+$('totalBrokerage').textContent=money(brokerage);
+$('customerDue').textContent=money(total-received);
+$('ownerDue').textContent=money(ownerTotal-paid);
+$('totalExpenses').textContent=money(exp);
 
-  $("bookingRows").innerHTML = filtered.slice().reverse().map(b => {
-    const balance = Math.max(0,Number(b.freight)-Number(b.received));
-    return `<tr>
-      <td>${esc(b.id)}</td>
-      <td>${esc(b.date)}</td>
-      <td>${esc(b.customer)}</td>
-      <td>${esc(b.truck)}</td>
-      <td>${esc(b.from)} → ${esc(b.to)}</td>
-      <td>${money(b.freight)}</td>
-      <td>${money(b.brokerage)}</td>
-      <td>${money(b.received)}</td>
-      <td>${money(balance)}</td>
-      <td><span class="badge ${b.payment.toLowerCase()}">${esc(b.payment)}</span></td>
-      <td><button class="red" onclick="deleteBooking('${b.id}')">Delete</button></td>
-    </tr>`;
-  }).join("");
+let q=($('search')?.value||'').toLowerCase();
+$('bookingRows').innerHTML=bookings.filter(b=>
+[b.truck,b.customer,b.owner,b.from,b.to].join(' ').toLowerCase().includes(q)
+).map(b=>`<tr>
+<td>${safe(b.date)}</td><td>${safe(b.truck)}</td>
+<td>${safe(b.from)} → ${safe(b.to)}</td>
+<td>${safe(b.customer)}</td><td>${safe(b.owner)}</td>
+<td>${money(b.freight)}</td><td>${money(b.received)}</td>
+<td>${money(b.freight-b.ownerFreight)}</td>
+<td><button class="danger" onclick="deleteBooking(${b.id})">Delete</button></td>
+</tr>`).join('')||'<tr><td colspan="9">No bookings found</td></tr>';
 
-  $("emptyMessage").style.display = filtered.length ? "none" : "block";
+let customers={},owners={};
+bookings.forEach(b=>{
+let c=b.customer||'Unknown',o=b.owner||'Unknown';
+if(!customers[c])customers[c]={f:0,r:0};
+customers[c].f+=b.freight;customers[c].r+=b.received;
+if(!owners[o])owners[o]={f:0,p:0};
+owners[o].f+=b.ownerFreight;owners[o].p+=b.ownerPaid;
+});
+
+$('customerRows').innerHTML=Object.entries(customers).map(([n,v])=>
+`<tr><td>${safe(n)}</td><td>${money(v.f)}</td><td>${money(v.r)}</td><td>${money(v.f-v.r)}</td></tr>`
+).join('')||'<tr><td colspan="4">No customer records</td></tr>';
+
+$('ownerRows').innerHTML=Object.entries(owners).map(([n,v])=>
+`<tr><td>${safe(n)}</td><td>${money(v.f)}</td><td>${money(v.p)}</td><td>${money(v.f-v.p)}</td></tr>`
+).join('')||'<tr><td colspan="4">No owner records</td></tr>';
+
+$('expenseRows').innerHTML=expenses.map(e=>
+`<tr><td>${safe(e.date)}</td><td>${safe(e.name)}</td><td>${money(e.amount)}</td>
+<td><button class="danger" onclick="deleteExpense(${e.id})">Delete</button></td></tr>`
+).join('')||'<tr><td colspan="4">No expenses added</td></tr>';
 }
 
 function deleteBooking(id){
-  if(!confirm("Delete this booking permanently?")) return;
-  bookings = bookings.filter(b=>b.id !== id);
-  saveData();
-}
+if(confirm('Delete this booking?')){
+bookings=bookings.filter(b=>b.id!==id);save();
+}}
+function deleteExpense(id){
+if(confirm('Delete this expense?')){
+expenses=expenses.filter(e=>e.id!==id);save();
+}}
 
 function exportCSV(){
-  if(!bookings.length){alert("No bookings to export.");return;}
-  const cols = ["id","date","customer","gstin","truck","owner","driver",
-    "from","to","freight","brokerage","received","payment","notes"];
-  const csv = [
-    cols.join(","),
-    ...bookings.map(b=>cols.map(k=>
-      '"' + String(b[k] ?? "").replace(/"/g,'""') + '"'
-    ).join(","))
-  ].join("\r\n");
-
-  downloadFile("\uFEFF"+csv,"bgrl-bookings.csv","text/csv;charset=utf-8");
+let rows=[['Date','Truck','From','To','Customer','GSTIN','Owner','Driver','Customer Freight','Received','Owner Freight','Owner Paid','Brokerage']];
+bookings.forEach(b=>rows.push([b.date,b.truck,b.from,b.to,b.customer,b.gstin,b.owner,b.driver,b.freight,b.received,b.ownerFreight,b.ownerPaid,b.freight-b.ownerFreight]));
+let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+downloadFile('\ufeff'+csv,'BGRL-Bookings.csv','text/csv');
 }
-
 function backupData(){
-  downloadFile(JSON.stringify(bookings,null,2),
-    "bgrl-backup.json","application/json");
+downloadFile(JSON.stringify({bookings,expenses},null,2),'BGRL-Backup.json','application/json');
 }
-
 function downloadFile(content,name,type){
-  const blob = new Blob([content],{type});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href=url;a.download=name;a.click();
-  URL.revokeObjectURL(url);
+let url=URL.createObjectURL(new Blob([content],{type}));
+let a=document.createElement('a');a.href=url;a.download=name;a.click();
+setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-
 function restoreData(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try{
-      const data = JSON.parse(reader.result);
-      if(!Array.isArray(data) || !data.every(b =>
-        b && typeof b.id === "string" && typeof b.freight === "number"
-      )) throw new Error("Invalid backup");
-      if(!confirm("Replace current bookings with this backup?")) return;
-      bookings=data;
-      saveData();
-      alert("Backup restored successfully!");
-    }catch(e){alert("Invalid backup file.");}
-    event.target.value="";
-  };
-  reader.readAsText(file);
+let file=event.target.files[0];if(!file)return;
+let reader=new FileReader();
+reader.onload=()=>{
+try{
+let data=JSON.parse(reader.result);
+if(!Array.isArray(data.bookings)||!Array.isArray(data.expenses))throw Error();
+if(confirm('Replace current data with this backup?')){
+bookings=data.bookings;expenses=data.expenses;save();
+alert('Backup restored!');
 }
-
-function toggleLanguage(){
-  hindi = !hindi;
-  $("langBtn").textContent = hindi ? "English" : "हिंदी";
-  $("welcome").textContent = hindi ? "व्यापार डैशबोर्ड" : "Business Dashboard";
-  $("s1").textContent = hindi ? "कुल बुकिंग" : "Total Bookings";
-  $("s2").textContent = hindi ? "कुल भाड़ा" : "Total Freight";
-  $("s3").textContent = hindi ? "कुल ब्रोकरेज" : "Total Brokerage";
-  $("s4").textContent = hindi ? "बाकी भुगतान" : "Pending Payments";
-  $("recentTitle").textContent = hindi ? "हाल की बुकिंग" : "Recent Bookings";
-  $("navDash").textContent = hindi ? "डैशबोर्ड" : "Dashboard";
-  $("navBooking").textContent = hindi ? "+ नई बुकिंग" : "+ New Booking";
-  $("navRecords").textContent = hindi ? "सभी बुकिंग" : "All Bookings";
-  $("formTitle").textContent = hindi ? "नई ट्रांसपोर्ट बुकिंग" : "Add New Transport Booking";
-  $("recordsTitle").textContent = hindi ? "सभी ट्रांसपोर्ट बुकिंग" : "All Transport Bookings";
-  $("saveBtn").textContent = hindi ? "बुकिंग सेव करें" : "Save Booking";
-  $("search").placeholder = hindi ? "बुकिंग खोजें..." : "Search customer, truck, route or booking...";
+}catch(e){alert('Invalid backup file.');}
+event.target.value='';
+};
+reader.readAsText(file);
 }
-
-resetForm();
-updateDashboard();
+render();
 </script>
 </body>
-</html>
-
-                                          
+  </html>
