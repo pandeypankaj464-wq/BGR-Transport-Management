@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BGRL - Ledgers</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f2f5fa;font-family:Arial;color:#17243b}
+header{background:#102344;color:white;padding:20px}
+header h2{margin:0;font-size:20px}
+header p{color:#e8bd62;margin:6px 0 0;font-size:12px}
+main{max-width:1100px;margin:auto;padding:15px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+button{padding:11px 14px;border:0;border-radius:7px;background:#174b91;color:white;font-weight:bold;cursor:pointer}
+input,select{padding:11px;border:1px solid #ccd6e4;border-radius:7px;width:100%;margin:5px 0 12px}
+.panel{background:white;border-radius:10px;padding:17px;margin:14px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{background:white;padding:17px;border-radius:10px}
+.card small{color:#68758a}
+.card h2{margin:10px 0;color:#102344}
+table{width:100%;border-collapse:collapse;min-width:650px}
+th,td{padding:11px;border-bottom:1px solid #e5eaf1;text-align:left;font-size:13px}
+th{background:#edf2f8}
+.tablewrap{overflow-x:auto}
+.hidden{display:none}
+.muted{font-size:13px;color:#68758a}
+</style>
+</head>
+<body>
+<header>
+<h2>BOMBAY GUJARAT ROADLINES</h2>
+<p>TRANSPORT & LOGISTICS MANAGEMENT</p>
+</header>
+<main>
+<nav>
+<button onclick="show('home')">Ledger Dashboard</button>
+<button onclick="show('customers')">Customer Ledger</button>
+<button onclick="show('owners')">Truck Owner Ledger</button>
+<a href="index.html"><button>Back to Main Dashboard</button></a>
+</nav>
+
+<section id="home">
+<h3>Ledger Summary</h3>
+<div class="cards">
+<div class="card"><small>Total Customer Outstanding</small><h2 id="cdue">₹0</h2></div>
+<div class="card"><small>Total Owner Outstanding</small><h2 id="odue">₹0</h2></div>
+<div class="card"><small>Total Customer Received</small><h2 id="received">₹0</h2></div>
+<div class="card"><small>Total Owner Paid</small><h2 id="paid">₹0</h2></div>
+</div>
+<div class="panel">
+<p class="muted">This page reads booking information saved by the main BGRL dashboard in this same browser.</p>
+<button onclick="refresh()">Refresh Ledger</button>
+</div>
+</section>
+
+<section id="customers" class="hidden">
+<div class="panel">
+<h3>Customer Ledger</h3>
+<input id="cs" placeholder="Search customer" oninput="render()">
+<div class="tablewrap"><table>
+<thead><tr><th>Customer</th><th>Bookings</th><th>Freight</th><th>Received</th><th>Outstanding</th></tr></thead>
+<tbody id="ctable"></tbody>
+</table></div>
+</div>
+</section>
+
+<section id="owners" class="hidden">
+<div class="panel">
+<h3>Truck Owner Ledger</h3>
+<input id="os" placeholder="Search truck owner" oninput="render()">
+<div class="tablewrap"><table>
+<thead><tr><th>Owner</th><th>Bookings</th><th>Payable</th><th>Paid</th><th>Outstanding</th></tr></thead>
+<tbody id="otable"></tbody>
+</table></div>
+</div>
+</section>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let data=[];
+function money(n){return "₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function show(id){
+["home","customers","owners"].forEach(x=>$(x).classList.toggle("hidden",x!==id));
+render();
+}
+function refresh(){
+try{
+data=JSON.parse(localStorage.getItem("bgrl_bookings")||"[]");
+if(!Array.isArray(data))data=[];
+}catch(e){data=[]}
+render();
+alert("Ledger refreshed!");
+}
+function render(){
+let cg={},og={};
+data.forEach(b=>{
+let c=(b.customer||"Not specified").trim();
+let o=(b.owner||"Not specified").trim();
+if(!cg[c])cg[c]={count:0,total:0,paid:0};
+if(!og[o])og[o]={count:0,total:0,paid:0};
+cg[c].count++;cg[c].total+=Number(b.freight||0);cg[c].paid+=Number(b.received||0);
+og[o].count++;og[o].total+=Number(b.ownerFreight||0);og[o].paid+=Number(b.ownerPaid||0);
+});
+const sum=(obj,k)=>Object.values(obj).reduce((s,x)=>s+x[k],0);
+$("cdue").textContent=money(sum(cg,"total")-sum(cg,"paid"));
+$("odue").textContent=money(sum(og,"total")-sum(og,"paid"));
+$("received").textContent=money(sum(cg,"paid"));
+$("paid").textContent=money(sum(og,"paid"));
+$("ctable").innerHTML=Object.entries(cg).filter(([n])=>n.toLowerCase().includes($("cs").value.toLowerCase())).map(([n,x])=>`
+<tr><td>${esc(n)}</td><td>${x.count}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${money(x.total-x.paid)}</td></tr>`).join("");
+$("otable").innerHTML=Object.entries(og).filter(([n])=>n.toLowerCase().includes($("os").value.toLowerCase())).map(([n,x])=>`
+<tr><td>${esc(n)}</td><td>${x.count}</td><td>${money(x.total)}</td><td>${money(x.paid)}</td><td>${money(x.total-x.paid)}</td></tr>`).join("");
+}
+refresh();
+</script>
+</body>
+  </html>
+  
