@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102b55">
+<title>BOMBAY GUJARAT ROADLINES</title>
+<style>
+:root{--navy:#102b55;--blue:#1d4e89;--gold:#e5b94f;--bg:#f3f6fb;--line:#dce4ee;--text:#1d2b40;--muted:#718096;--green:#16845b;--red:#bd3939}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,sans-serif}
+header{background:linear-gradient(110deg,var(--navy),var(--blue));color:white;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:20px;font-weight:800;letter-spacing:.5px}
+.subtitle{font-size:11px;letter-spacing:2px;color:var(--gold);margin-top:5px}
+.layout{display:grid;grid-template-columns:215px 1fr;min-height:90vh}
+nav{background:var(--navy);padding:12px;display:flex;flex-direction:column;gap:5px}
+nav button{background:transparent;color:#e8eff9;border:0;text-align:left;padding:11px;border-radius:7px;cursor:pointer}
+nav button.active,nav button:hover{background:#285486}
+main{padding:20px;min-width:0;max-width:1600px;width:100%;margin:auto}
+h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0 0 12px}
+p{line-height:1.5}.muted{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:11px;padding:15px;margin-top:14px}
+.metric{font-size:24px;font-weight:bold;color:var(--navy);margin-top:6px}
+.metric-label{font-size:12px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end}
+.row>*{flex:1;min-width:140px}
+.field{margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:bold;color:#40536c;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:7px;font:inherit;background:white;color:var(--text)}
+textarea{min-height:65px;resize:vertical}
+button,.btn{background:var(--blue);color:white;border:0;padding:9px 12px;border-radius:7px;cursor:pointer;font-weight:bold}
+button.secondary{background:#e8edf5;color:#263e60}
+button.gold{background:var(--gold);color:#17243a}
+button.danger{background:var(--red)}
+button.success{background:var(--green)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;align-items:center}
+.search{max-width:350px}
+.table-wrap{overflow:auto;background:white;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top}
+th{background:#edf2f8;color:#314762}
+tr:hover td{background:#fafcff}
+.actions{display:flex;gap:5px;flex-wrap:wrap}
+.actions button{font-size:11px;padding:6px 8px}
+.hidden{display:none!important}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.notice{background:#fff7df;border:1px solid #f0dfae;color:#70551a;padding:12px;border-radius:8px;margin-top:14px}
+.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e9f0fa;color:#234b7a;font-size:11px}
+.modal-bg{display:none;position:fixed;inset:0;background:#0009;z-index:10;align-items:center;justify-content:center;padding:12px}
+.modal{background:white;width:min(760px,100%);max-height:92vh;overflow:auto;padding:18px;border-radius:12px}
+.modal-head,.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:11px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}nav button{text-align:center;font-size:11px;padding:9px 3px}main{padding:13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.brand{font-size:16px}.metric{font-size:20px}.form-grid{grid-template-columns:1fr}}
+@media print{header,nav,.no-print,footer{display:none!important}.layout{display:block}main{padding:0}.panel,.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+ <div>
+  <div class="brand">BOMBAY GUJARAT ROADLINES</div>
+  <div class="subtitle">TRANSPORT &amp; LOGISTICS MANAGEMENT</div>
+ </div>
+ <div id="dateNow"></div>
+</header>
+
+<div class="layout">
+<nav id="nav">
+ <button class="active" data-page="dashboard">Dashboard</button>
+ <button data-page="bookings">Bookings / Loads</button>
+ <button data-page="bilti">Bilti / LR</button>
+ <button data-page="customers">Customers</button>
+ <button data-page="owners">Truck Owners</button>
+ <button data-page="drivers">Drivers</button>
+ <button data-page="payments">Payments &amp; Ledgers</button>
+ <button data-page="expenses">Expenses</button>
+ <button data-page="challans">Challans</button>
+ <button data-page="deliveries">Delivery / POD</button>
+ <button data-page="documents">Documents</button>
+ <button data-page="calculator">Freight Calculator</button>
+ <button data-page="reports">Reports</button>
+ <button data-page="backup">Backup &amp; Settings</button>
+</nav>
+
+<main>
+<section id="page-dashboard" class="page">
+ <h1>Business Dashboard</h1>
+ <p class="muted">Your transport business at a glance</p>
+ <div class="grid">
+  <div class="card"><div class="metric-label">Total Bookings</div><div class="metric" id="dBookings">0</div></div>
+  <div class="card"><div class="metric-label">Active Loads</div><div class="metric" id="dActive">0</div></div>
+  <div class="card"><div class="metric-label">Total Freight</div><div class="metric" id="dFreight">₹0</div></div>
+  <div class="card"><div class="metric-label">Total Brokerage</div><div class="metric" id="dBrokerage">₹0</div></div>
+  <div class="card"><div class="metric-label">Customer Receipts</div><div class="metric" id="dReceipts">₹0</div></div>
+  <div class="card"><div class="metric-label">Owner Payments</div><div class="metric" id="dOwnerPaid">₹0</div></div>
+  <div class="card"><div class="metric-label">Business Expenses</div><div class="metric" id="dExpenses">₹0</div></div>
+  <div class="card"><div class="metric-label">Pending Customer Balance*</div><div class="metric" id="dPending">₹0</div></div>
+ </div>
+ <div class="panel"><h2>Recent Bookings</h2><div id="recent"></div></div>
+ <div class="panel"><h2>Upcoming Document Expiries</h2><div id="expiryAlerts"></div></div>
+ <div class="notice">*Pending customer balance is calculated from total booking freight minus recorded customer receipts. Check individual ledgers before making financial decisions.</div>
+</section>
+
+<section id="page-bookings" class="page hidden">
+ <div class="section-head"><div><h1>Bookings / Loads</h1><p class="muted">Record every transport booking</p></div><button onclick="openForm('bookings')">+ Add Booking</button></div>
+ <div class="toolbar"><input id="search-bookings" class="search" placeholder="Search booking, LR, truck, route..." oninput="render('bookings')"><button class="secondary" onclick="exportCSV('bookings')">Export CSV</button></div>
+ <div id="table-bookings"></div>
+</section>
+
+<section id="page-bilti" class="page hidden">
+ <div class="section-head"><div><h1>Bilti / Lorry Receipt</h1><p class="muted">Create and print LR documents</p></div><button onclick="openForm('bilti')">+ Create Bilti</button></div>
+ <div class="toolbar"><input id="search-bilti" class="search" placeholder="Search LR / consignor / consignee..." oninput="render('bilti')"></div>
+ <div id="table-bilti"></div>
+</section>
+
+<section id="page-customers" class="page hidden">
+ <div class="section-head"><div><h1>Customer Directory</h1><p class="muted">Customer contact and ledger</p></div><button onclick="openForm('customers')">+ Add Customer</button></div>
+ <div class="toolbar"><input id="search-customers" class="search" placeholder="Search customers..." oninput="render('customers')"></div>
+ <div id="table-customers"></div><div id="customerLedger" class="panel hidden"></div>
+</section>
+
+<section id="page-owners" class="page hidden">
+ <div class="section-head"><div><h1>Truck Owners</h1><p class="muted">Owner contact and payment ledger</p></div><button onclick="openForm('owners')">+ Add Owner</button></div>
+ <div class="toolbar"><input id="search-owners" class="search" placeholder="Search owners / truck..." oninput="render('owners')"></div>
+ <div id="table-owners"></div><div id="ownerLedger" class="panel hidden"></div>
+</section>
+
+<section id="page-drivers" class="page hidden">
+ <div class="section-head"><div><h1>Drivers</h1><p class="muted">Driver contact and licence details</p></div><button onclick="openForm('drivers')">+ Add Driver</button></div>
+ <div class="toolbar"><input id="search-drivers" class="search" placeholder="Search drivers..." oninput="render('drivers')"></div>
+ <div id="table-drivers"></div>
+</section>
+
+<section id="page-payments" class="page hidden">
+ <div class="section-head"><div><h1>Payments</h1><p class="muted">Customer receipts and truck owner payments, including partial payments</p></div><button onclick="openForm('payments')">+ Add Payment</button></div>
+ <div class="toolbar"><input id="search-payments" class="search" placeholder="Search party / LR / reference..." oninput="render('payments')"></div>
+ <div id="table-payments"></div>
+</section>
+
+<section id="page-expenses" class="page hidden">
+ <div class="section-head"><div><h1>Business Expenses</h1><p class="muted">Track office and transport expenses</p></div><button onclick="openForm('expenses')">+ Add Expense</button></div>
+ <div class="toolbar"><input id="search-expenses" class="search" placeholder="Search expenses..." oninput="render('expenses')"></div>
+ <div id="table-expenses"></div>
+</section>
+
+<section id="page-challans" class="page hidden">
+ <div class="section-head"><div><h1>Challans</h1><p class="muted">Vehicle and goods challan records</p></div><button onclick="openForm('challans')">+ Add Challan</button></div>
+ <div class="toolbar"><input id="search-challans" class="search" placeholder="Search challans..." oninput="render('challans')"></div>
+ <div id="table-challans"></div>
+</section>
+
+<section id="page-deliveries" class="page hidden">
+ <div class="section-head"><div><h1>Delivery Tracking / POD</h1><p class="muted">Update delivery status and POD references</p></div><button onclick="openForm('deliveries')">+ Add Update</button></div>
+ <div class="toolbar"><input id="search-deliveries" class="search" placeholder="Search LR / truck / status..." oninput="render('deliveries')"></div>
+ <div id="table-deliveries"></div>
+</section>
+
+<section id="page-documents" class="page hidden">
+ <div class="section-head"><div><h1>Documents &amp; Expiry Tracking</h1><p class="muted">RC, insurance, PUC, permit, licence and other expiry dates</p></div><button onclick="openForm('documents')">+ Add Document</button></div>
+ <div class="toolbar"><input id="search-documents" class="search" placeholder="Search documents..." oninput="render('documents')"></div>
+ <div id="table-documents"></div>
+</section>
+
+<section id="page-calculator" class="page hidden">
+ <h1>Freight &amp; Brokerage Calculator</h1>
+ <div class="panel">
+  <div class="row">
+   <div class="field"><label>Total Freight (₹)</label><input id="calcFreight" type="number" min="0" value="25000" oninput="calculate()"></div>
+   <div class="field"><label>Brokerage Type</label><select id="calcType" onchange="calculate()"><option value="percent">Percentage (%)</option><option value="fixed">Fixed Amount (₹)</option></select></div>
+   <div class="field"><label>Brokerage Value</label><input id="calcRate" type="number" min="0" value="5" oninput="calculate()"></div>
+  </div>
+  <div class="grid">
+   <div class="card"><div class="metric-label">Brokerage</div><div class="metric" id="calcBroker">₹0</div></div>
+   <div class="card"><div class="metric-label">Freight After Brokerage</div><div class="metric" id="calcNet">₹0</div></div>
+  </div>
+ </div>
+</section>
+
+<section id="page-reports" class="page hidden">
+ <h1>Business Reports</h1>
+ <div class="grid">
+  <div class="card"><div class="metric-label">Customer Receipts</div><div class="metric" id="rReceipts">₹0</div></div>
+  <div class="card"><div class="metric-label">Owner Payments</div><div class="metric" id="rOwner">₹0</div></div>
+  <div class="card"><div class="metric-label">Expenses</div><div class="metric" id="rExpenses">₹0</div></div>
+  <div class="card"><div class="metric-label">Brokerage Less Expenses</div><div class="metric" id="rProfit">₹0</div></div>
+ </div>
+ <div class="panel"><h2>Booking Status Summary</h2><div id="statusReport"></div></div>
+ <div class="toolbar"><button onclick="exportAllCSV()">Export All CSV Files</button></div>
+</section>
+
+<section id="page-backup" class="page hidden">
+ <h1>Backup &amp; Settings</h1>
+ <div class="panel">
+  <h2>Company Information</h2>
+  <div class="form-grid">
+   <div class="field"><label>Company Name</label><input id="settingName"></div>
+   <div class="field"><label>Phone</label><input id="settingPhone"></div>
+   <div class="field"><label>GSTIN</label><input id="settingGST"></div>
+  </div>
+  <div class="field"><label>Office Address</label><textarea id="settingAddress"></textarea></div>
+  <button onclick="saveSettings()">Save Company Details</button>
+ </div>
+ <div class="panel">
+  <h2>Backup &amp; Restore</h2>
+  <p class="muted">Download a full JSON backup regularly. Restoring replaces current local app data.</p>
+  <div class="toolbar">
+   <button class="success" onclick="backup()">Download Full Backup</button>
+   <label class="btn secondary">Restore Backup<input type="file" accept=".json,application/json" onchange="restore(event)" hidden></label>
+   <button class="secondary" onclick="exportAllCSV()">Export All CSV</button>
+  </div>
+ </div>
+ <div class="panel"><h2>Storage Information</h2><div id="storageInfo" class="muted"></div></div>
+ <div class="notice">This version stores data locally in the browser on this device. It does not provide automatic cloud sync, multi-user login or secure online document storage. Keep backups safe and avoid storing sensitive personal documents.</div>
+ <div class="panel"><h2>Danger Zone</h2><button class="danger" onclick="clearData()">Delete All App Data</button></div>
+</section>
+<footer>BOMBAY GUJARAT ROADLINES · TRANSPORT &amp; LOGISTICS MANAGEMENT</footer>
+</main>
+</div>
+
+<div class="modal-bg" id="modal">
+ <div class="modal">
+  <div class="modal-head"><h2 id="modalTitle">Add Record</h2><button class="secondary" onclick="closeForm()">Close</button></div>
+  <form id="recordForm" onsubmit="saveRecord(event)">
+   <div id="formFields" class="form-grid"></div>
+   <button type="submit">Save Record</button>
+   <button type="button" class="secondary" onclick="closeForm()">Cancel</button>
+  </form>
+ </div>
+</div>
+
+<script>
+'use strict';
+
+const DB_KEY='bgrl_transport_pro_v1';
+const TYPES=['bookings','bilti','customers','owners','drivers','payments','expenses','challans','deliveries','documents'];
+const TITLES={bookings:'Booking',bilti:'Bilti / LR',customers:'Customer',owners:'Truck Owner',drivers:'Driver',payments:'Payment',expenses:'Expense',challans:'Challan',deliveries:'Delivery Update',documents:'Document'};
+const schema={
+bookings:[
+ ['date','Booking Date','date'],['lr','LR / Booking Number','text'],['customer','Customer Name','text'],['owner','Truck Owner','text'],['truck','Truck Number','text'],['driver','Driver Name','text'],['from','Loading From','text'],['to','Delivery To','text'],['goods','Goods / Material','text'],['packages','Packages','text'],['weight','Weight','text'],['freight','Total Freight (₹)','number'],['brokerType','Brokerage Type','select','percent|Percentage,fixed|Fixed Amount'],['brokerRate','Brokerage Value','number'],['brokerage','Brokerage (₹)','number'],['ownerFreight','Owner Freight (₹)','number'],['advance','Owner Advance (₹)','number'],['gstin','Customer GSTIN','text'],['eway','E-Way Bill Number','text'],['ewayExpiry','E-Way Bill Expiry','date'],['status','Load Status','select','Booked|Booked,Loaded|Loaded,Dispatched|Dispatched,In Transit|In Transit,Delivered|Delivered,Cancelled|Cancelled'],['notes','Notes','textarea']
+],
+bilti:[
+ ['date','LR Date','date'],['lr','LR Number','text'],['bookingLR','Booking Reference','text'],['consignor','Consignor Name','text'],['consignorAddress','Consignor Address','textarea'],['consignee','Consignee Name','text'],['consigneeAddress','Consignee Address','textarea'],['from','From','text'],['to','To','text'],['truck','Truck Number','text'],['driver','Driver Name','text'],['goods','Goods Description','text'],['packages','Packages','text'],['weight','Weight','text'],['freight','Freight (₹)','number'],['eway','E-Way Bill Number','text'],['remarks','Remarks','textarea']
+],
+customers:[
+ ['name','Customer Name','text'],['phone','Phone Number','tel'],['gstin','GSTIN','text'],['address','Address','textarea'],['creditLimit','Credit Limit (₹)','number'],['notes','Notes','textarea']
+],
+owners:[
+ ['name','Owner Name','text'],['phone','Phone Number','tel'],['truck','Truck Number','text'],['pan','PAN (optional)','text'],['bank','Bank / UPI Details','text'],['address','Address','textarea'],['notes','Notes','textarea']
+],
+drivers:[
+ ['name','Driver Name','text'],['phone','Phone Number','tel'],['license','Driving Licence Number','text'],['licenseExpiry','Licence Expiry','date'],['truck','Truck Number','text'],['address','Address','textarea'],['notes','Notes','textarea']
+],
+payments:[
+ ['date','Payment Date','date'],['type','Payment Type','select','Receipt|Customer Receipt,Payment|Owner Payment,Other|Other'],['party','Party Name','text'],['lr','LR / Booking Number','text'],['amount','Amount (₹)','number'],['mode','Payment Mode','select','Cash|Cash,UPI|UPI,Bank Transfer|Bank Transfer,Cheque|Cheque,Other|Other'],['reference','Transaction Reference','text'],['notes','Notes','textarea']
+],
+expenses:[
+ ['date','Expense Date','date'],['category','Category','select','Fuel|Fuel,Toll|Toll,Loading|Loading,Unloading|Unloading,Office|Office,Phone|Phone,Repair|Repair,Salary|Salary,Other|Other'],['description','Description','text'],['amount','Amount (₹)','number'],['paidTo','Paid To','text'],['mode','Payment Mode','select','Cash|Cash,UPI|UPI,Bank|Bank,Other|Other'],['notes','Notes','textarea']
+],
+challans:[
+ ['date','Date','date'],['challanNo','Challan Number','text'],['lr','LR / Booking Number','text'],['truck','Truck Number','text'],['driver','Driver Name','text'],['from','From','text'],['to','To','text'],['description','Description','textarea'],['status','Status','select','Created|Created,Issued|Issued,Returned|Returned']
+],
+deliveries:[
+ ['date','Update Date','date'],['lr','LR / Booking Number','text'],['truck','Truck Number','text'],['status','Delivery Status','select','Booked|Booked,Loaded|Loaded,Dispatched|Dispatched,In Transit|In Transit,Reached Destination|Reached Destination,Delivered|Delivered,POD Received|POD Received'],['location','Current Location','text'],['podDate','POD Date','date'],['podReference','POD Reference / Notes','text'],['notes','Notes','textarea']
+],
+documents:[
+ ['type','Document Type','select','RC|RC,Insurance|Insurance,PUC|PUC,Fitness|Fitness,Permit|Permit,Driving Licence|Driving Licence,E-Way Bill|E-Way Bill,Other|Other'],['number','Document Number','text'],['holder','Owner / Driver / Company','text'],['vehicle','Vehicle Number','text'],['issueDate','Issue Date','date'],['expiry','Expiry Date','date'],['reminderDays','Reminder Before (days)','number'],['notes','Notes','textarea']
+]
+};
+
+function freshDB(){
+ const d={settings:{name:'BOMBAY GUJARAT ROADLINES',phone:'',gstin:'',address:''},counters:{lr:1}};
+ TYPES.forEach(t=>d[t]=[]);
+ return d;
+}
+function loadDB(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(DB_KEY)||'null');
+  if(!saved||typeof saved!=='object')return freshDB();
+  const d=freshDB();
+  TYPES.forEach(t=>d[t]=Array.isArray(saved[t])?saved[t]:[]);
+  d.settings=Object.assign(d.settings,saved.settings||{});
+  d.count
