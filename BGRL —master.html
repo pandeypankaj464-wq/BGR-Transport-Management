@@ -1,389 +1,256 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101d3a">
 <title>BOMBAY GUJARAT ROADLINES</title>
 <style>
-:root{--navy:#101d3a;--blue:#174a91;--gold:#e6b84c;--bg:#f2f5fa;--white:#fff;--text:#1d2939;--muted:#667085;--border:#e1e6ef;--red:#c93636;--green:#16834a}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
-header{background:linear-gradient(120deg,var(--navy),var(--blue));color:white;padding:17px;position:sticky;top:0;z-index:10;box-shadow:0 3px 12px #0002}
-.brand{font-size:19px;font-weight:800;letter-spacing:.5px}
-.subtitle{font-size:11px;color:#f1d58a;margin-top:5px}
-.headerrow{display:flex;justify-content:space-between;align-items:center;gap:8px}
-#clock{font-size:11px;text-align:right}
-nav{display:flex;gap:6px;overflow-x:auto;background:white;padding:9px;position:sticky;top:69px;z-index:9;border-bottom:1px solid var(--border)}
-nav button{white-space:nowrap;border:0;border-radius:8px;padding:10px 12px;background:#edf2fa;color:var(--navy);font-weight:bold}
-nav button.active{background:var(--blue);color:white}
-main{max-width:1250px;margin:auto;padding:14px}
+body{margin:0;background:#f2f5fa;color:#182943;font:15px Arial}
+header{background:#10264a;color:white;padding:20px}
+header h2{margin:0;font-size:22px}
+header p{color:#edc56b;margin:6px 0 0;font-size:12px;letter-spacing:2px}
+nav{display:flex;gap:6px;overflow:auto;background:white;padding:10px;position:sticky;top:0}
+nav button{border:0;padding:11px 14px;border-radius:7px;background:#e8eef7;color:#10264a;font-weight:bold;white-space:nowrap}
+nav button.active{background:#10264a;color:white}
+main{max-width:1200px;margin:auto;padding:15px}
 .page{display:none}.page.active{display:block}
-h2{font-size:21px;color:var(--navy);margin:8px 0 15px}
-h3{font-size:16px;color:var(--navy);margin-top:4px}
-.card{background:white;border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:13px;box-shadow:0 2px 7px #10204008}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:11px}
-.statlabel{font-size:12px;color:var(--muted)}
-.statvalue{font-size:22px;font-weight:800;color:var(--navy);margin-top:8px;overflow-wrap:anywhere}
-.gold{color:#a87912}.red{color:var(--red)}.green{color:var(--green)}
-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:11px}
-label{display:block;font-size:12px;font-weight:bold;color:#475467}
-input,select,textarea{display:block;width:100%;margin-top:5px;padding:10px;border:1px solid #cfd7e4;border-radius:8px;font-size:14px;background:white;color:var(--text)}
-textarea{min-height:65px;resize:vertical}
-button{cursor:pointer}
-.btn{border:0;border-radius:8px;padding:10px 13px;background:var(--blue);color:white;font-weight:bold;margin:4px 3px 4px 0}
-.btn.goldbtn{background:#ae801d}.btn.greenbtn{background:var(--green)}.btn.redbtn{background:var(--red)}.btn.graybtn{background:#667085}
-.tablewrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:620px}
-th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left;font-size:12px;vertical-align:top}
-th{background:#edf2fa;color:var(--navy)}
-.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8effb;color:#174a91;font-size:11px;font-weight:bold}
-.muted{font-size:12px;color:var(--muted);line-height:1.5}
-.search{max-width:420px;margin:0 0 12px}
-.actions{margin-top:10px}
-.empty{padding:18px;text-align:center;color:var(--muted);font-size:13px}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-footer{text-align:center;padding:22px;color:var(--muted);font-size:11px}
-@media(max-width:600px){.brand{font-size:15px}main{padding:9px}nav{top:65px}.statvalue{font-size:19px}}
-@media print{header,nav,.no-print,footer{display:none!important}body{background:white}main{padding:0}.card{box-shadow:none;border:0}}
+h2,h3{color:#10264a}
+.card,.panel{background:white;border:1px solid #dce4ef;border-radius:10px;padding:15px;margin:12px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.number{font-size:24px;font-weight:bold;color:#174b87;margin-top:8px}
+label{font-size:12px;font-weight:bold;display:block;margin:9px 0 5px;color:#52627a}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px}
+textarea{min-height:65px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.btn{border:0;background:#174b87;color:white;padding:10px 13px;border-radius:7px;margin:5px 3px 0 0;font-weight:bold}
+.gold{background:#b7831f}.red{background:#b83232}.green{background:#16764a}
+.tablebox{overflow:auto;background:white;border-radius:8px}
+table{width:100%;border-collapse:collapse;min-width:650px}
+td,th{padding:10px;border-bottom:1px solid #e1e7ef;text-align:left;font-size:13px}
+th{background:#edf2f8;color:#10264a}
+.small{font-size:12px;color:#68778b}
+@media print{header,nav,.noprint{display:none}body{background:white}}
 </style>
 </head>
 <body>
+
 <header>
- <div class="headerrow">
-  <div>
-   <div class="brand">BOMBAY GUJARAT ROADLINES</div>
-   <div class="subtitle">TRANSPORT & LOGISTICS MANAGEMENT</div>
-  </div>
-  <div id="clock"></div>
- </div>
+<h2>BOMBAY GUJARAT ROADLINES</h2>
+<p>TRANSPORT & LOGISTICS MANAGEMENT</p>
 </header>
 
-<nav class="no-print" id="nav"></nav>
-<main id="app"></main>
-<footer>BOMBAY GUJARAT ROADLINES · TRANSPORT & LOGISTICS MANAGEMENT</footer>
+<nav class="noprint">
+<button class="active" onclick="page('dashboard',this)">Dashboard</button>
+<button onclick="page('booking',this)">Bookings / LR</button>
+<button onclick="page('parties',this)">Parties</button>
+<button onclick="page('owners',this)">Truck Owners</button>
+<button onclick="page('payments',this)">Payments</button>
+<button onclick="page('expenses',this)">Expenses</button>
+<button onclick="page('reports',this)">Reports</button>
+<button onclick="page('backup',this)">Backup</button>
+</nav>
+
+<main>
+
+<section id="dashboard" class="page active">
+<h2>Business Dashboard</h2>
+<div class="cards" id="stats"></div>
+<div class="panel">
+<h3>Recent Bookings</h3>
+<div id="recent"></div>
+</div>
+<button class="btn" onclick="page('booking')">+ New Booking</button>
+</section>
+
+<section id="booking" class="page">
+<h2>Booking / LR Entry</h2>
+<div class="panel">
+<form id="bookingForm">
+<input type="hidden" id="editId">
+<div class="grid">
+<div><label>Date</label><input type="date" id="date" required></div>
+<div><label>LR / Bilty Number</label><input id="lr"></div>
+<div><label>Customer / Party</label><input id="party" required></div>
+<div><label>GSTIN</label><input id="gst"></div>
+<div><label>Truck Number</label><input id="truck"></div>
+<div><label>Driver Name / Mobile</label><input id="driver"></div>
+<div><label>From</label><input id="from" required></div>
+<div><label>To</label><input id="to" required></div>
+<div><label>Goods</label><input id="goods"></div>
+<div><label>Freight Amount ₹</label><input type="number" id="freight" value="0"></div>
+<div><label>Truck Owner Freight ₹</label><input type="number" id="owner" value="0"></div>
+<div><label>Brokerage ₹</label><input type="number" id="commission" value="0"></div>
+<div><label>Advance ₹</label><input type="number" id="advance" value="0"></div>
+<div><label>Status</label>
+<select id="status">
+<option>Booked</option>
+<option>In Transit</option>
+<option>Delivered</option>
+<option>Cancelled</option>
+</select>
+</div>
+</div>
+<label>Notes</label><textarea id="notes"></textarea>
+<button class="btn">Save Booking</button>
+<button class="btn gold" type="button" onclick="clearBooking()">Clear</button>
+</form>
+</div>
+
+<div class="panel">
+<h3>Booking Register</h3>
+<input id="search" placeholder="Search LR, party, truck or route..." oninput="render()">
+<div class="tablebox">
+<table>
+<thead><tr><th>Date / LR</th><th>Party</th><th>Truck</th><th>Route</th><th>Freight</th><th>Brokerage</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="bookingRows"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="parties" class="page">
+<h2>Party Master</h2>
+<div class="panel">
+<form id="partyForm">
+<div class="grid">
+<div><label>Party Name</label><input id="pname" required></div>
+<div><label>Mobile</label><input id="pmobile"></div>
+<div><label>GSTIN</label><input id="pgst"></div>
+<div><label>Address</label><input id="paddress"></div>
+</div>
+<button class="btn">Save Party</button>
+</form>
+</div>
+<div class="panel"><h3>Party Records</h3><div class="tablebox"><table><thead><tr><th>Name</th><th>Mobile</th><th>GSTIN</th><th>Address</th></tr></thead><tbody id="partyRows"></tbody></table></div></div>
+</section>
+
+<section id="owners" class="page">
+<h2>Truck Owner Master</h2>
+<div class="panel">
+<form id="ownerForm">
+<div class="grid">
+<div><label>Owner Name</label><input id="oname" required></div>
+<div><label>Mobile</label><input id="omobile"></div>
+<div><label>Truck Number</label><input id="otruck" required></div>
+<div><label>City</label><input id="ocity"></div>
+</div>
+<button class="btn">Save Owner</button>
+</form>
+</div>
+<div class="panel"><h3>Truck Owner Records</h3><div class="tablebox"><table><thead><tr><th>Owner</th><th>Mobile</th><th>Truck</th><th>City</th></tr></thead><tbody id="ownerRows"></tbody></table></div></div>
+</section>
+
+<section id="payments" class="page">
+<h2>Payments Register</h2>
+<div class="panel">
+<form id="paymentForm">
+<div class="grid">
+<div><label>Date</label><input type="date" id="paydate" required></div>
+<div><label>LR Number</label><select id="paylr" required></select></div>
+<div><label>Payment Type</label><select id="paytype"><option>Received from Party</option><option>Paid to Truck Owner</option></select></div>
+<div><label>Amount ₹</label><input type="number" id="payamount" min="1" required></div>
+<div><label>Payment Mode</label><select id="paymode"><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Cheque</option></select></div>
+<div><label>Reference</label><input id="paynote"></div>
+</div>
+<button class="btn">Save Payment</button>
+</form>
+</div>
+<div class="panel"><h3>Payment Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>LR</th><th>Type</th><th>Amount</th><th>Mode</th><th>Action</th></tr></thead><tbody id="paymentRows"></tbody></table></div></div>
+</section>
+
+<section id="expenses" class="page">
+<h2>Expenses</h2>
+<div class="panel">
+<form id="expenseForm">
+<div class="grid">
+<div><label>Date</label><input type="date" id="edate" required></div>
+<div><label>Category</label><select id="ecat"><option>Office</option><option>Travel</option><option>Phone / Internet</option><option>Staff</option><option>Bank Charges</option><option>Other</option></select></div>
+<div><label>Amount ₹</label><input type="number" id="eamount" min="1" required></div>
+<div><label>Description</label><input id="edesc"></div>
+</div>
+<button class="btn">Save Expense</button>
+</form>
+</div>
+<div class="panel"><h3>Expense Records</h3><div class="tablebox"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Action</th></tr></thead><tbody id="expenseRows"></tbody></table></div></div>
+</section>
+
+<section id="reports" class="page">
+<h2>Reports & Accounts</h2>
+<div class="cards" id="reportStats"></div>
+<div class="panel"><h3>Booking Financial Report</h3><div class="tablebox"><table><thead><tr><th>LR</th><th>Party</th><th>Freight</th><th>Received</th><th>Balance</th><th>Brokerage</th></tr></thead><tbody id="reportRows"></tbody></table></div>
+<button class="btn" onclick="csv()">Export CSV</button>
+<button class="btn gold" onclick="window.print()">Print Report</button>
+</div>
+</section>
+
+<section id="backup" class="page">
+<h2>Backup & Restore</h2>
+<div class="panel">
+<h3>Download Backup</h3>
+<p>Save a copy of all your business records regularly.</p>
+<button class="btn green" onclick="backup()">Download JSON Backup</button>
+<hr>
+<h3>Restore Backup</h3>
+<input type="file" id="restoreFile" accept=".json">
+<button class="btn gold" onclick="restore()">Restore Data</button>
+<p class="small">Restore replaces current browser data. Take a backup first.</p>
+</div>
+<div class="panel"><b>Important:</b><p class="small">Data is saved in this browser on this device. It does not automatically sync to other devices. Clearing browser data may remove records.</p></div>
+</section>
+
+</main>
 
 <script>
-"use strict";
-
-/* ---------------- DATABASE ---------------- */
-
-const DBKEY="bgrl_master_database_v1";
-const blankDB=()=>({
- version:1,
- bookings:[],biltis:[],customers:[],owners:[],drivers:[],
- payments:[],expenses:[],challans:[],deliveries:[],documents:[]
+const KEY='BGRL_MASTER_DATA_V2';
+let db=load();
+function empty(){return{bookings:[],parties:[],owners:[],payments:[],expenses:[]}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||empty()}catch(e){return empty()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function el(x){return document.getElementById(x)}
+function v(x){return el(x).value.trim()}
+function n(x){return Number(el(x).value)||0}
+function money(x){return '₹'+(Number(x)||0).toLocaleString('en-IN')}
+function safe(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function today(){return new Date().toISOString().slice(0,10)}
+['date','paydate','edate'].forEach(x=>el(x).value=today());
+function page(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');render();window.scrollTo(0,0)}
+function clearBooking(){el('bookingForm').reset();el('editId').value='';el('date').value=today()}
+el('bookingForm').addEventListener('submit',e=>{
+e.preventDefault();
+let old=db.bookings.find(x=>x.id===v('editId'));
+let b={id:old?old.id:id(),date:v('date'),lr:v('lr')||'BGR-'+Date.now().toString().slice(-6),party:v('party'),gst:v('gst'),truck:v('truck').toUpperCase(),driver:v('driver'),from:v('from'),to:v('to'),goods:v('goods'),freight:n('freight'),owner:n('owner'),commission:n('commission'),advance:n('advance'),status:v('status'),notes:v('notes')};
+if(old)db.bookings=db.bookings.map(x=>x.id===old.id?b:x);else db.bookings.unshift(b);
+save();clearBooking();alert('Booking saved successfully');
 });
-
-let db=blankDB();
-
-function loadDB(){
- try{
-  const raw=localStorage.getItem(DBKEY);
-  if(raw){
-   const parsed=JSON.parse(raw);
-   Object.keys(db).forEach(k=>{
-    if(Array.isArray(db[k])) db[k]=Array.isArray(parsed[k])?parsed[k]:[];
-   });
-  }
- }catch(e){alert("Saved data could not be read. Please restore a backup.");}
+function editBooking(i){let b=db.bookings.find(x=>x.id===i);if(!b)return;let m={editId:'id',date:'date',lr:'lr',party:'party',gst:'gst',truck:'truck',driver:'driver',from:'from',to:'to',goods:'goods',freight:'freight',owner:'owner',commission:'commission',advance:'advance',status:'status',notes:'notes'};Object.entries(m).forEach(([a,c])=>el(a).value=b[c]??'');page('booking')}
+function del(arr,i){if(confirm('Delete this record?')){db[arr]=db[arr].filter(x=>x.id!==i);save()}}
+function received(i){return db.payments.filter(p=>p.booking===i&&p.type==='Received from Party').reduce((s,p)=>s+p.amount,0)}
+el('partyForm').addEventListener('submit',e=>{e.preventDefault();db.parties.push({id:id(),name:v('pname'),mobile:v('pmobile'),gst:v('pgst'),address:v('paddress')});e.target.reset();save();alert('Party saved')});
+el('ownerForm').addEventListener('submit',e=>{e.preventDefault();db.owners.push({id:id(),name:v('oname'),mobile:v('omobile'),truck:v('otruck').toUpperCase(),city:v('ocity')});e.target.reset();save();alert('Truck owner saved')});
+el('paymentForm').addEventListener('submit',e=>{e.preventDefault();db.payments.unshift({id:id(),date:v('paydate'),booking:v('paylr'),type:v('paytype'),amount:n('payamount'),mode:v('paymode'),note:v('paynote')});e.target.reset();el('paydate').value=today();save();alert('Payment saved')});
+el('expenseForm').addEventListener('submit',e=>{e.preventDefault();db.expenses.unshift({id:id(),date:v('edate'),cat:v('ecat'),amount:n('eamount'),desc:v('edesc')});e.target.reset();el('edate').value=today();save();alert('Expense saved')});
+function card(k,x){return `<div class="card"><div class="small">${k}</div><div class="number">${x}</div></div>`}
+function render(){
+let freight=db.bookings.reduce((s,b)=>s+b.freight,0),comm=db.bookings.reduce((s,b)=>s+b.commission,0),rec=db.payments.filter(p=>p.type==='Received from Party').reduce((s,p)=>s+p.amount,0),paid=db.payments.filter(p=>p.type==='Paid to Truck Owner').reduce((s,p)=>s+p.amount,0),exp=db.expenses.reduce((s,x)=>s+x.amount,0);
+el('stats').innerHTML=card('Total Bookings',db.bookings.length)+card('Total Freight',money(freight))+card('Brokerage',money(comm))+card('Received',money(rec))+card('Paid to Owners',money(paid))+card('Expenses',money(exp));
+el('recent').innerHTML=db.bookings.slice(0,6).map(b=>`<p><b>${safe(b.lr)}</b> · ${safe(b.party)} · ${safe(b.from)} → ${safe(b.to)} · ${money(b.freight)}</p>`).join('')||'No bookings yet.';
+let q=(el('search').value||'').toLowerCase();
+el('bookingRows').innerHTML=db.bookings.filter(b=>[b.lr,b.party,b.truck,b.from,b.to].join(' ').toLowerCase().includes(q)).map(b=>`<tr><td>${safe(b.date)}<br><b>${safe(b.lr)}</b></td><td>${safe(b.party)}</td><td>${safe(b.truck)}</td><td>${safe(b.from)} → ${safe(b.to)}</td><td>${money(b.freight)}</td><td>${money(b.commission)}</td><td>${safe(b.status)}</td><td><button class="btn" onclick="editBooking('${b.id}')">Edit</button><button class="btn red" onclick="del('bookings','${b.id}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="8">No bookings found</td></tr>';
+el('partyRows').innerHTML=db.parties.map(p=>`<tr><td>${safe(p.name)}</td><td>${safe(p.mobile)}</td><td>${safe(p.gst)}</td><td>${safe(p.address)}</td></tr>`).join('');
+el('ownerRows').innerHTML=db.owners.map(o=>`<tr><td>${safe(o.name)}</td><td>${safe(o.mobile)}</td><td>${safe(o.truck)}</td><td>${safe(o.city)}</td></tr>`).join('');
+el('paylr').innerHTML=db.bookings.map(b=>`<option value="${b.id}">${safe(b.lr)} - ${safe(b.party)}</option>`).join('');
+el('paymentRows').innerHTML=db.payments.map(p=>{let b=db.bookings.find(x=>x.id===p.booking);return `<tr><td>${safe(p.date)}</td><td>${safe(b?.lr||'Booking removed')}</td><td>${safe(p.type)}</td><td>${money(p.amount)}</td><td>${safe(p.mode)}</td><td><button class="btn red" onclick="del('payments','${p.id}')">Delete</button></td></tr>`}).join('');
+el('expenseRows').innerHTML=db.expenses.map(x=>`<tr><td>${safe(x.date)}</td><td>${safe(x.cat)}</td><td>${safe(x.desc)}</td><td>${money(x.amount)}</td><td><button class="btn red" onclick="del('expenses','${x.id}')">Delete</button></td></tr>`).join('');
+el('reportStats').innerHTML=card('Freight',money(freight))+card('Received',money(rec))+card('Outstanding',money(freight-rec))+card('Expenses',money(exp))+card('Brokerage',money(comm));
+el('reportRows').innerHTML=db.bookings.map(b=>`<tr><td>${safe(b.lr)}</td><td>${safe(b.party)}</td><td>${money(b.freight)}</td><td>${money(received(b.id))}</td><td>${money(b.freight-received(b.id))}</td><td>${money(b.commission)}</td></tr>`).join('');
 }
-function saveDB(){
- try{localStorage.setItem(DBKEY,JSON.stringify(db));}
- catch(e){alert("Storage full or unavailable. Download a backup and clear some browser storage.");}
-}
-function uid(){return "BGRL-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7).toUpperCase();}
-function today(){return new Date().toISOString().slice(0,10);}
-function money(v){return "₹"+(Number(v)||0).toLocaleString("en-IN",{maximumFractionDigits:2});}
-function esc(v){
- return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function sum(arr,fn){return arr.reduce((a,x)=>a+(Number(fn(x))||0),0);}
-function byId(arr,id){return arr.find(x=>x.id===id);}
-function bookingLabel(b){return (b.lr||b.id)+" | "+(b.truck||"No truck")+" | "+(b.from||"")+" → "+(b.to||"");}
-function paidFor(id,type){
- return sum(db.payments.filter(p=>p.bookingId===id&&p.partyType===type),p=>p.amount);
-}
-function customerDue(b){return Math.max(0,(Number(b.customerFreight)||0)-paidFor(b.id,"customer"));}
-function ownerDue(b){return Math.max(0,(Number(b.ownerFreight)||0)-paidFor(b.id,"owner"));}
-function brokerage(b){return (Number(b.customerFreight)||0)-(Number(b.ownerFreight)||0);}
-
-/* ---------------- NAVIGATION ---------------- */
-
-const pages=[
- ["dashboard","Dashboard"],["bookings","Bookings"],["biltis","Bilti / LR"],
- ["customers","Customers"],["owners","Truck Owners"],["drivers","Drivers"],
- ["payments","Payments"],["expenses","Expenses"],["challans","Challans"],
- ["deliveries","Delivery / POD"],["documents","Documents"],["reports","Reports"],
- ["backup","Backup"]
-];
-let currentPage="dashboard";
-
-function showPage(id){
- currentPage=id;
- document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- renderPage();
- window.scrollTo(0,0);
-}
-function buildNav(){
- document.getElementById("nav").innerHTML=pages.map(p=>
-  `<button data-page="${p[0]}" onclick="showPage('${p[0]}')">${p[1]}</button>`
- ).join("");
-}
-
-/* ---------------- FORM DEFINITIONS ---------------- */
-
-const schemas={
- bookings:{
-  title:"Booking Management",singular:"Booking",key:"bookings",
-  fields:[
-   ["date","Booking Date","date",true],["lr","Booking / LR Reference","text"],
-   ["truck","Truck Number","text",true],["from","From","text",true],["to","To","text",true],
-   ["customer","Customer Name","text",true],["gstin","Customer GSTIN","text"],
-   ["owner","Truck Owner","text"],["driver","Driver Name","text"],["driverMobile","Driver Mobile","tel"],
-   ["goods","Goods Description","text"],["weight","Weight","number"],["packages","Packages","number"],
-   ["customerFreight","Customer Freight ₹","number",true],["ownerFreight","Owner Freight ₹","number",true],
-   ["status","Booking Status","select",false,["Booked","Loaded","In Transit","Delivered","Cancelled"]],
-   ["remarks","Remarks","textarea"]
-  ],
-  columns:["date","truck","from","to","customer","customerFreight","ownerFreight","status"]
- },
- biltis:{
-  title:"Bilti / Lorry Receipt",singular:"Bilti",key:"biltis",
-  fields:[
-   ["lrNo","Bilti / LR Number","text",true],["date","LR Date","date",true],
-   ["bookingId","Linked Booking","booking"],["consignor","Consignor","text",true],
-   ["consignorAddress","Consignor Address","textarea"],["consignee","Consignee","text",true],
-   ["consigneeAddress","Consignee Address","textarea"],["truck","Truck Number","text",true],
-   ["from","From","text"],["to","To","text"],["goods","Goods Description","text"],
-   ["packages","Packages","number"],["weight","Weight","number"],["freight","Freight ₹","number"],
-   ["paymentTerms","Freight Payment","select",false,["To Pay","Paid","To Be Billed"]],
-   ["eway","E-Way Bill Number","text"],["ewayExpiry","E-Way Bill Expiry","date"],
-   ["remarks","Remarks","textarea"]
-  ],
-  columns:["lrNo","date","truck","consignor","consignee","from","to","freight"]
- },
- customers:{
-  title:"Customer Records & Ledger",singular:"Customer",key:"customers",
-  fields:[
-   ["name","Customer Name","text",true],["mobile","Mobile","tel"],["gstin","GSTIN","text"],
-   ["address","Address","textarea"],["creditLimit","Credit Limit ₹","number"],["notes","Notes","textarea"]
-  ],columns:["name","mobile","gstin","creditLimit"]
- },
- owners:{
-  title:"Truck Owner Records & Ledger",singular:"Truck Owner",key:"owners",
-  fields:[
-   ["name","Owner Name","text",true],["mobile","Mobile","tel"],["truck","Truck Number","text"],
-   ["address","Address","textarea"],["bank","Bank / UPI Details","text"],["notes","Notes","textarea"]
-  ],columns:["name","mobile","truck","bank"]
- },
- drivers:{
-  title:"Driver Records",singular:"Driver",key:"drivers",
-  fields:[
-   ["name","Driver Name","text",true],["mobile","Mobile","tel"],["licence","Licence Number","text"],
-   ["expiry","Licence Expiry","date"],["address","Address","textarea"],["notes","Notes","textarea"]
-  ],columns:["name","mobile","licence","expiry"]
- },
- payments:{
-  title:"Payments & Receipts",singular:"Payment",key:"payments",
-  fields:[
-   ["date","Payment Date","date",true],["bookingId","Booking","booking",true],
-   ["partyType","Payment Type","select",true,["customer","owner"]],
-   ["amount","Amount ₹","number",true],["mode","Payment Mode","select",false,["Cash","UPI","Bank Transfer","Cheque","Other"]],
-   ["reference","UTR / Reference","text"],["remarks","Remarks","textarea"]
-  ],columns:["date","bookingId","partyType","amount","mode","reference"]
- },
- expenses:{
-  title:"Expenses & Accounting",singular:"Expense",key:"expenses",
-  fields:[
-   ["date","Date","date",true],["category","Category","select",true,["Office","Telephone","Fuel","Loading","Unloading","Salary","Commission","Travel","Other"]],
-   ["description","Description","text",true],["amount","Amount ₹","number",true],
-   ["mode","Payment Mode","select",false,["Cash","UPI","Bank","Other"]],["remarks","Remarks","textarea"]
-  ],columns:["date","category","description","amount","mode"]
- },
- challans:{
-  title:"Transport Challans",singular:"Challan",key:"challans",
-  fields:[
-   ["number","Challan Number","text",true],["date","Date","date",true],
-   ["bookingId","Booking","booking"],["truck","Truck Number","text"],
-   ["from","From","text"],["to","To","text"],["driver","Driver","text"],
-   ["advance","Advance ₹","number"],["remarks","Remarks","textarea"]
-  ],columns:["number","date","truck","from","to","driver","advance"]
- },
- deliveries:{
-  title:"Delivery Tracking & POD",singular:"Delivery Update",key:"deliveries",
-  fields:[
-   ["bookingId","Booking","booking",true],["date","Update Date","date",true],
-   ["status","Delivery Status","select",true,["Booked","Loaded","In Transit","Reached Destination","Delivered","Delivery Failed"]],
-   ["receivedBy","Received By","text"],["pod","POD Reference","text"],
-   ["podDate","POD Date","date"],["remarks","Remarks","textarea"]
-  ],columns:["date","bookingId","status","receivedBy","pod","podDate"]
- },
- documents:{
-  title:"Vehicle & Driver Documents",singular:"Document",key:"documents",
-  fields:[
-   ["person","Vehicle / Driver Name","text",true],
-   ["type","Document Type","select",true,["RC","Insurance","Fitness","Permit","PUC","Driving Licence","E-Way Bill","Other"]],
-   ["number","Document Number","text"],["expiry","Expiry Date","date"],["notes","Notes","textarea"]
-  ],columns:["person","type","number","expiry","notes"]
- }
-};
-
-const labels={
- id:"ID",date:"Date",lr:"Reference",truck:"Truck",from:"From",to:"To",
- customer:"Customer",gstin:"GSTIN",owner:"Owner",driver:"Driver",
- driverMobile:"Driver Mobile",goods:"Goods",weight:"Weight",packages:"Packages",
- customerFreight:"Customer Freight",ownerFreight:"Owner Freight",status:"Status",
- remarks:"Remarks",lrNo:"Bilti No.",bookingId:"Booking",consignor:"Consignor",
- consignorAddress:"Consignor Address",consignee:"Consignee",consigneeAddress:"Consignee Address",
- freight:"Freight",paymentTerms:"Payment Terms",eway:"E-Way Bill",ewayExpiry:"E-Way Expiry",
- name:"Name",mobile:"Mobile",address:"Address",creditLimit:"Credit Limit",
- bank:"Bank / UPI",notes:"Notes",licence:"Licence",expiry:"Expiry",
- partyType:"Payment Type",amount:"Amount",mode:"Mode",reference:"Reference",
- category:"Category",description:"Description",number:"Number",advance:"Advance",
- receivedBy:"Received By",pod:"POD Reference",podDate:"POD Date",person:"Person",type:"Type"
-};
-
-/* ---------------- GENERIC FORM / TABLE ---------------- */
-
-function fieldHTML(f,obj={}){
- const [key,label,type,required,opts]=f;
- const value=obj[key]??(type==="date"?today():"");
- const req=required?"required":"";
- const safeValue=esc(value);
- if(type==="textarea")return `<label>${label}<textarea name="${key}" ${req}>${safeValue}</textarea></label>`;
- if(type==="select"){
-  return `<label>${label}<select name="${key}" ${req}>${(opts||[]).map(o=>`<option value="${esc(o)}" ${String(value)===o?"selected":""}>${esc(o)}</option>`).join("")}</select></label>`;
- }
- if(type==="booking"){
-  return `<label>${label}<select name="${key}"><option value="">Select Booking</option>${db.bookings.map(b=>`<option value="${esc(b.id)}" ${value===b.id?"selected":""}>${esc(bookingLabel(b))}</option>`).join("")}</select></label>`;
- }
- return `<label>${label}<input name="${key}" type="${type}" value="${safeValue}" ${req} ${type==="number"?'min="0" step="0.01"':""}></label>`;
-}
-
-function formHTML(page,obj={}){
- const s=schemas[page];
- return `<div class="card">
- <h3>${obj.id?"Edit":"Add"} ${s.singular}</h3>
- <form id="recordForm">
- <input type="hidden" name="id" value="${esc(obj.id||"")}">
- ${s.fields.map(f=>fieldHTML(f,obj)).join("")}
- </form>
- <div class="actions">
- <button class="btn" onclick="saveRecord('${page}')">Save ${s.singular}</button>
- <button class="btn graybtn" onclick="renderPage()">Clear</button>
- </div></div>`;
-}
-function cellValue(key,r){
- if(key==="bookingId"){
-  const b=byId(db.bookings,r.bookingId);
-  return b?bookingLabel(b):"Booking removed";
- }
- if(key==="partyType")return r.partyType==="customer"?"Customer Received":"Owner Paid";
- if(key==="customerFreight"||key==="ownerFreight"||key==="amount"||key==="freight"||key==="advance"||key==="creditLimit")return money(r[key]);
- return r[key]??"";
-}
-function tableHTML(page,records){
- const s=schemas[page];
- if(!records.length)return `<div class="empty">No records found.</div>`;
- return `<div class="tablewrap"><table><thead><tr>${s.columns.map(k=>`<th>${esc(labels[k]||k)}</th>`).join("")}<th>Actions</th></tr></thead><tbody>
- ${records.map(r=>`<tr>${s.columns.map(k=>`<td>${esc(cellValue(k,r))}</td>`).join("")}
- <td><button class="btn" onclick="editRecord('${page}','${r.id}')">Edit</button>
- <button class="btn redbtn" onclick="deleteRecord('${page}','${r.id}')">Delete</button>
- ${page==="biltis"?`<button class="btn goldbtn" onclick="printBilti('${r.id}')">Print</button>`:""}
- ${page==="challans"?`<button class="btn goldbtn" onclick="printRecord('${page}','${r.id}')">Print</button>`:""}
- </td></tr>`).join("")}
- </tbody></table></div>`;
-}
-function saveRecord(page){
- const form=document.getElementById("recordForm");
- if(!form.reportValidity())return;
- const data=Object.fromEntries(new FormData(form).entries());
- const s=schemas[page];
- for(const f of s.fields){
-  if(f[2]==="number")data[f[0]]=Number(data[f[0]]||0);
- }
- if(page==="biltis"&&!data.lrNo.trim()){alert("Bilti number required.");return;}
- if(page==="payments"&&data.amount<=0){alert("Payment amount must be greater than zero.");return;}
- if(page==="payments"){
-  const b=byId(db.bookings,data.bookingId);
-  if(!b){alert("Please select a valid booking.");return;}
-  const limit=data.partyType==="customer"?Number(b.customerFreight):Number(b.ownerFreight);
-  if(Number(data.amount)>(data.partyType==="customer"?customerDue(b):ownerDue(b))){
-   if(!confirm("This payment is greater than the current outstanding balance. Save anyway?"))return;
-  }
- }
- if(page==="biltis"&&db.biltis.some(x=>x.lrNo.toLowerCase()===data.lrNo.toLowerCase()&&x.id!==data.id)){
-  alert("This Bilti number already exists.");return;
- }
- const arr=db[page];
- if(data.id){
-  const i=arr.findIndex(x=>x.id===data.id);
-  if(i>=0)arr[i]={...arr[i],...data};
- }else{
-  data.id=uid();data.createdAt=new Date().toISOString();arr.unshift(data);
- }
- saveDB();renderPage();
-}
-function editRecord(page,id){
- const obj=byId(db[page],id);
- if(!obj)return;
- document.getElementById("formarea").innerHTML=formHTML(page,obj);
- document.getElementById("formarea").scrollIntoView({behavior:"smooth"});
-}
-function deleteRecord(page,id){
- if(!confirm("Delete this record permanently? Make a backup first if needed."))return;
- db[page]=db[page].filter(x=>x.id!==id);
- if(page==="bookings"){
-  db.payments=db.payments.filter(x=>x.bookingId!==id);
-  db.deliveries=db.deliveries.filter(x=>x.bookingId!==id);
- }
- saveDB();renderPage();
-}
-
-/* ---------------- PAGE RENDERING ---------------- */
-
-function renderPage(){
- const root=document.getElementById("app");
- if(currentPage==="dashboard"){root.innerHTML=dashboardHTML();return;}
- if(currentPage==="reports"){root.innerHTML=reportsHTML();return;}
- if(currentPage==="backup"){root.innerHTML=backupHTML();return;}
- if(currentPage==="customers"||currentPage==="owners"){root.innerHTML=ledgerHTML(currentPage);return;}
- const s=schemas[currentPage];
- if(!s){root.innerHTML="<div class='card'>Page not found.</div>";return;}
- root.innerHTML=`<h2>${s.title}</h2>
- <div id="formarea">${formHTML(currentPage)}</div>
- <div class="card"><h3>${s.singular} Records</h3>
- <input class="search" id="searchRecords" placeholder="Search records..." oninput="filterTable('${currentPage}')">
- <div id="recordTable">${tableHTML(currentPage,db[currentPage])}</div>
- </div>`;
-}
-function filterTable(page){
- const q=(document.getElementById("searchRecords").value||"").toLowerCase();
- const records=db[page].filter(r=>Object.values(r).join(" ").toLowerCase().includes(q));
- document.getElementById("recordTable").innerHTML=tableHTML(page,records);
-}
-function dashboardHTML(){
- const dueC=sum(db.bookings,customerDue),dueO=sum(db.bookings,ownerDue);
- const freight=sum(db.bookings,b=>b.customerFreight);
- const brok=sum(db.bookings,brokerage);
- const expenses=sum(db.expenses,e=>e.amount);
- return `<h2>Business Dashboard</h2>
- <div class="grid">
- <div class="card"><div class="statlabel">Total Bookings</div><div class="statvalue">${db.bookings.length}</div></div>
- <div class="card"><div class="statlabel">Customer Freight</div><div class="statvalue">${money(freight)}</div></div>
- <div class="card"><div class="statlabel">Brokerage</div><div class="statvalue gold">${money(brok)}</div></div>
- <div class="card"><div class="statlabel">Customer Due</div><div class="statvalue red">${money(dueC)}</div></div>
- <div class="card"><div class="statlabel">Owner Due</div><div class="statvalue red">${money(dueO)}</div></div>
- <div class="card"><div class="statlabel">Expenses</div><div class="statvalue">${money(expenses)}</div></div>
- <div class="card"><div class="statlabel">Biltis Created</div><div class="statvalue">${db.biltis.length}</div></div>
- <div class="card"><div class="statlabel">Pending Deliveries</div><div class="statvalue">${db.bookings.filter(b=>b.status!=="Delivered"&&b.status!=="Cancelled").length}</div></div>
- </div>
- <div class="card"><h3>Quick Actions</h3>
- <button class="btn" onclick="showPage('bookings')">New Booking</button>
- <button class="btn goldbtn" onclick="showPage('biltis')">Create Bilti</button>
- <button class="btn greenbtn" onclick="showPage('payments')">Payment Entry</button>
- <button class="btn graybtn" onclick="showPage('challans')">Create Challan</button>
- </div>
- <div class="card">
+function download(name,data,type){let a=document.createElement('a'),u=URL.createObjectURL(new Blob([data],{type}));a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function backup(){download('BGRL-Backup-'+today()+'.json',JSON.stringify(db,null,2),'application/json')}
+function restore(){let f=el('restoreFile').files[0];if(!f)return alert('Choose a backup file');let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.bookings||!x.parties||!x.owners||!x.payments||!x.expenses)throw 0;if(confirm('Replace current data with this backup?')){db=x;save();alert('Backup restored')}}catch(e){alert('Invalid backup file')}};r.readAsText(f)}
+function csv(){let rows=[['Date','LR','Party','Truck','From','To','Freight','Owner Freight','Brokerage','Advance','Status'],...db.bookings.map(b=>[b.date,b.lr,b.party,b.truck,b.from,b.to,b.freight,b.owner,b.commission,b.advance,b.status])];download('BGRL-Bookings.csv',rows.map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),'text/csv')}
+render();
+</script>
+</body>
+ </html>
